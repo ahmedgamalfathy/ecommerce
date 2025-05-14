@@ -24,7 +24,6 @@ class ProductWebsiteController  extends Controller
     }
     public function index(Request $request)
     {
-        dd($request->all());
          $products= QueryBuilder::for(Product::class)->allowedFilters(['status',
                     AllowedFilter::exact('categoryId', 'category_id'),
                     AllowedFilter::exact('subCategoryId', 'sub_category_id'),
@@ -39,7 +38,8 @@ class ProductWebsiteController  extends Controller
                     }
                     return $query;
                     }),
-                    ])->get();
+        ])->get();
+        dd($products);
         return ApiResponse::success(new AllProductCollection(PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
     }
     public function show(int $id)
