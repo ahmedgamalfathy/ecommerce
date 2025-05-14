@@ -21,9 +21,9 @@ return new class extends Migration
             $table->id();
             $table->string('number')->unique();
             $table->foreignIdFor(Client::class)->constrained('clients');
-            $table->foreignId('client_phone_id')->nullable()->constrained('client_phones');
-            $table->foreignId('client_email_id')->nullable()->constrained('client_emails');
-            $table->foreignId('client_address_id')->nullable()->constrained('client_addresses');
+            $table->foreignId('client_phone_id')->nullable()->constrained('client_phones')->nullOnDelete();
+            $table->foreignId('client_email_id')->nullable()->constrained('client_emails')->nullOnDelete();
+            $table->foreignId('client_address_id')->nullable()->constrained('client_addresses')->nullOnDelete();
             $table->tinyInteger('status')->default(OrderStatus::DRAFT->value);
             $table->decimal('discount',8,2);
             $table->decimal('total_cost',8,2)->default(0);

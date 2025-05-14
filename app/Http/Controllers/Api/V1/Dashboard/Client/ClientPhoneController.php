@@ -80,6 +80,7 @@ class ClientPhoneController extends Controller implements HasMiddleware
             $this->clientPhoneService->deleteClientPhone($id);
             return  ApiResponse::success([], __('crud.deleted'),  HttpStatusCode::OK);
         }catch(ModelNotFoundException $e){
+
             return ApiResponse::error(__('crud.not_found'), [], HttpStatusCode::NOT_FOUND);
         }catch(\Throwable $th){
             return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);

@@ -44,9 +44,6 @@ class ClientPhoneService
     public function deleteClientPhone(int $id)
     {
         $clientPhone = ClientPhone::find($id);
-        if(!$clientPhone){
-            throw new ModelNotFoundException();
-        }
         $clientPhone->delete();
     }
 

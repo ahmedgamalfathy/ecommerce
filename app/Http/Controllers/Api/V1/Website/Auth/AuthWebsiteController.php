@@ -35,27 +35,34 @@ class AuthWebsiteController extends Controller
             "email"=>"required|string|email",
             "password"=>["required",
             Password::min(8)->mixedCase()->numbers()],
-            'avatar' => ["sometimes", "nullable","image", "mimes:jpeg,jpg,png,gif,svg", "max:5120"],
+            // 'avatar' => ["sometimes", "nullable","image", "mimes:jpeg,jpg,png,gif,svg", "max:5120"],
         ]);
         $avatarPath = null;
 
-        if(isset($data['avatar']) && $data['avatar'] instanceof UploadedFile){
-            $avatarPath =  $this->uploadService->uploadFile($data['avatar'], 'clientAvatars');
-        }
+        // if(isset($data['avatar']) && $data['avatar'] instanceof UploadedFile){
+        //     $avatarPath =  $this->uploadService->uploadFile($data['avatar'], 'clientAvatars');
+        // }
         $client = Client::create([
             "name" => $data['name'],
             "type" => ClientType::CLIENT->value
         ]);
-        ClientUser::create([
-           "avatar"=>$avatarPath,
-           "name"=>$data['name'],
-           "password" =>Hash::make($data['password']),
-           "email"=>$data['email'],
-           "status"=> ClientStatus::ACTIVE->value,
-           "client_id" =>$client->id
-        ]);
+      $user = ClientUser::create([
+            "avatar"=>$avatarPath,
+            "name"=>$data['name'],
+            "password" =>Hash::make($data['password']),
+            "email"=>$data['email'],
+            "status"=> ClientStatus::ACTIVE->value,
+            "client_id" =>$client->id
+            ]);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-        return ApiResponse::success([],__('crud.created'));
+        return ApiResponse::success([
+            'profile' => new LoggedInClientResource($user),
+            'tokenDetails' => [
+                'token' => $token,
+                'expiresIn' => 60 * 10
+            ],
+        ],__('crud.created'));
     }
     public function logout(Request $request)
     {
