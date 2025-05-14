@@ -14,21 +14,29 @@ class AllProductCollection extends ResourceCollection
      * @return array<int|string, mixed>
      */
     private $pagination;
-
     public function __construct($resource)
     {
-        $this->pagination = [
-            'total' => $resource->total(),
-            'count' => $resource->count(),
-            'perPage' => $resource->perPage(),
-            'currentPage' => $resource->currentPage(),
-            'totalPages' => $resource->lastPage()
-        ];
-
-        $resource = $resource->getCollection();
+        if ($resource instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $this->pagination = [
+                'total' => $resource->total(),
+                'count' => $resource->count(),
+                'perPage' => $resource->perPage(),
+                'currentPage' => $resource->currentPage(),
+                'totalPages' => $resource->lastPage()
+            ];
+            $resource = $resource->getCollection();
+        } else {
+            $this->pagination = [
+                'total' => 0,
+                'count' => 0,
+                'perPage' => 0,
+                'currentPage' => 1,
+                'totalPages' => 1
+            ];
+        }
 
         parent::__construct($resource);
-       }
+    }
     public function toArray(Request $request): array
     {
         return [
