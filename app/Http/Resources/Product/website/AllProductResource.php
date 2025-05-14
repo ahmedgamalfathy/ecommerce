@@ -8,7 +8,7 @@ use App\Http\Resources\ProductMedia\ProductMediaResouce;
 
 class AllProductResource extends JsonResource
 {
-    /**
+    /** 
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
