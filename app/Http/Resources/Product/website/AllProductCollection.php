@@ -8,7 +8,7 @@ use App\Http\Resources\Product\Website\AllProductResource;
 
 class AllProductCollection extends ResourceCollection
 {
-    dd("sdsd");
+
     /**
      * Transform the resource collection into an array.
      *

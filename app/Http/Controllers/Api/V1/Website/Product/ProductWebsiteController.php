@@ -14,6 +14,7 @@ use App\Services\Product\ProductService;
 use App\Enums\ResponseCode\HttpStatusCode;
 
 use App\Http\Resources\Product\Website\ProductResource;
+use App\Http\Resources\Product\Website\AllProductResource;
 use App\Http\Resources\Product\Website\AllProductCollection;
 
 class ProductWebsiteController  extends Controller
@@ -41,9 +42,9 @@ class ProductWebsiteController  extends Controller
             return $query;
             }),
          ])->get();
-        // return PaginateCollection::paginate($products,10);
+        return AllProductResource::collection($products);
 
-        return response()->json(new AllProductCollection(PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
+        // return response()->json(new AllProductCollection($products));
         // return ApiResponse::success(new AllProductCollection( PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
     }
     public function show(int $id)
