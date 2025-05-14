@@ -29,7 +29,7 @@ use App\Http\Controllers\Api\V1\Website\Client\ClientAdressWebsiteController;
 use App\Http\Controllers\Api\V1\Dashboard\ProductMedia\ProductMediaController;
 use App\Http\Controllers\Api\V1\Website\Order\OrderController as OrderWebsite;
 use App\Http\Controllers\Api\V1\Website\Slider\SliderController as SliderWebsite;
-use App\Http\Controllers\Api\V1\Website\Product\ProductController as ProductWebsite;
+use App\Http\Controllers\Api\V1\Website\Product\ProductWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Category\CategoryController as CategoryWebsite;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ChangePasswordController as ChangePasswordWebsite ;
 
@@ -76,7 +76,7 @@ Route::prefix('v1/website')->group(function(){
     Route::apiResource('client-orders',ClientOrderController::class)->only(['index','show']);
     Route::apiResource('sliders', SliderWebsite::class)->only(['index']);
     Route::apiResource('categories',CategoryWebsite::class)->only(['index']);
-    Route::apiResource('products',ProductWebsite::class)->only(['index','show']);
+    Route::apiResource('products',ProductWebsiteController::class)->only(['index','show']);
     Route::apiResource('orders',OrderWebsite::class);
     Route::apiResource("clients-web" , ClientWebsiteController::class)->only(['index']);
     Route::apiResource("client-web-phones" , ClientPhoneWebsiteController::class);

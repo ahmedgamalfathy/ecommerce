@@ -15,7 +15,7 @@ use App\Enums\ResponseCode\HttpStatusCode;
 use App\Http\Resources\Product\Website\AllProductCollection;
 use App\Http\Resources\Product\Website\ProductResource;
 
-class ProductController extends Controller
+class ProductWebsiteController  extends Controller
 {
     public $productService;
     public function __construct( ProductService $productService)
