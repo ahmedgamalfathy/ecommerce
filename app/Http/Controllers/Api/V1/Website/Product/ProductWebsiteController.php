@@ -24,21 +24,23 @@ class ProductWebsiteController  extends Controller
     }
     public function index(Request $request)
     {
-         $products= QueryBuilder::for(Product::class)->allowedFilters(['status',
-                    AllowedFilter::exact('categoryId', 'category_id'),
-                    AllowedFilter::exact('subCategoryId', 'sub_category_id'),
-                    AllowedFilter::custom('search', new FilterProduct),
-                    AllowedFilter::callback('price', function ($query, $value) {
-                    if (is_string($value)) {
-                        $value = explode(',', $value); // تحويل النص إلى مصفوفة
-                        return $query->whereBetween('price', [$value[0], $value[1]]);
-                    }
-                    if (is_array($value) && count($value) === 2) {
-                        return $query->whereBetween('price', [$value[0], $value[1]]);
-                    }
-                    return $query;
-                    }),
-        ])->get();
+         $products= QueryBuilder::for(Product::class)
+         ->allowedFilters(['status',
+            AllowedFilter::exact('categoryId', 'category_id'),
+            AllowedFilter::exact('subCategoryId', 'sub_category_id'),
+            AllowedFilter::custom('search', new FilterProduct),
+            AllowedFilter::callback('price', function ($query, $value) {
+            if (is_string($value)) {
+                $value = explode(',', $value); // تحويل النص إلى مصفوفة
+                return $query->whereBetween('price', [$value[0], $value[1]]);
+            }
+            if (is_array($value) && count($value) === 2) {
+                return $query->whereBetween('price', [$value[0], $value[1]]);
+            }
+            return $query;
+            }),
+         ])->get();
+         dd($products);
         return ApiResponse::success(new AllProductCollection($products));
         // PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10))
     }
