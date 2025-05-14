@@ -12,8 +12,9 @@ use App\Filters\Product\FilterProduct;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Services\Product\ProductService;
 use App\Enums\ResponseCode\HttpStatusCode;
-use App\Http\Resources\Product\Website\AllProductCollection;
+
 use App\Http\Resources\Product\Website\ProductResource;
+use App\Http\Resources\Product\Website\AllProductCollection;
 
 class ProductWebsiteController  extends Controller
 {
@@ -40,7 +41,7 @@ class ProductWebsiteController  extends Controller
             return $query;
             }),
          ])->get();
-         return $products;
+         return PaginateCollection::paginate($products,10);
         //  return response()->json(new AllProductCollection(PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
         // return ApiResponse::success(new AllProductCollection( PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
     }
