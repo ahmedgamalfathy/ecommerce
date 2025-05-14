@@ -24,6 +24,7 @@ class ProductWebsiteController  extends Controller
     }
     public function index(Request $request)
     {
+        dd($request->all());
          $products= QueryBuilder::for(Product::class)->allowedFilters(['status',
                     AllowedFilter::exact('categoryId', 'category_id'),
                     AllowedFilter::exact('subCategoryId', 'sub_category_id'),
