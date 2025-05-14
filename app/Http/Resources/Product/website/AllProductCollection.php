@@ -8,6 +8,7 @@ use App\Http\Resources\Product\Website\AllProductResource;
 
 class AllProductCollection extends ResourceCollection
 {
+    dd("sdsd");
     /**
      * Transform the resource collection into an array.
      *
@@ -17,7 +18,7 @@ class AllProductCollection extends ResourceCollection
 
     public function __construct($resource)
     {
-        dd($resource);
+
         $this->pagination = [
             'total' => $resource->total(),
             'count' => $resource->count(),
