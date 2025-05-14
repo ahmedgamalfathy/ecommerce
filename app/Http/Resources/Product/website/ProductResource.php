@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Product\Website;
 
 use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Product\website\AllProductResource;
+use App\Http\Resources\Product\Website\AllProductResource;
 use App\Http\Resources\ProductMedia\ProductMediaResouce;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
