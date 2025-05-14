@@ -14,6 +14,7 @@ class CategoryController extends Controller
 {
 
    public function index(Request $request)  {
+    dd($request->all());
     $categories = Category::where('is_active',IsActive::ACTIVE)->get();
     return $categories;
     return ApiResponse::success(new AllCategoryCollection(PaginateCollection::paginate($categories, $request->pageSize??10)));
