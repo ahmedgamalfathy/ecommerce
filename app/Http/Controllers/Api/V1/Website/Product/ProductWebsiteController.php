@@ -42,10 +42,8 @@ class ProductWebsiteController  extends Controller
             return $query;
             }),
          ])->get();
-         return new AllProductCollection(PaginateCollection::paginate($products, $request->pageSize ?? 10));
-
         // return response()->json(new AllProductCollection($products));
-        // return ApiResponse::success(new AllProductCollection( PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
+        return ApiResponse::success(new AllProductCollection( PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
     }
     public function show(int $id)
     {
