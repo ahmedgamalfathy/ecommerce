@@ -18,7 +18,6 @@ class AllProductCollection extends ResourceCollection
 
     public function __construct($resource)
     {
-
         $this->pagination = [
             'total' => $resource->total(),
             'count' => $resource->count(),
@@ -26,10 +25,7 @@ class AllProductCollection extends ResourceCollection
             'currentPage' => $resource->currentPage(),
             'totalPages' => $resource->lastPage()
         ];
-
-        $resource = $resource->getCollection();
-
-        parent::__construct($resource);
+        parent::__construct($resource->getCollection());
        }
     public function toArray(Request $request): array
     {
