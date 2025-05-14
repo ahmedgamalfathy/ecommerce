@@ -15,7 +15,7 @@ use App\Enums\ResponseCode\HttpStatusCode;
 
 use App\Http\Resources\Product\Website\ProductResource;
 use App\Http\Resources\Product\Website\AllProductResource;
-use App\Http\Resources\Product\Website\AllProductCollection;
+use App\Http\Resources\Product\AllProductCollection;
 
 class ProductWebsiteController  extends Controller
 {
