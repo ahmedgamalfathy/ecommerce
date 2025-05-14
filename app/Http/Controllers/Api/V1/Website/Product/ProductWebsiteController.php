@@ -40,7 +40,7 @@ class ProductWebsiteController  extends Controller
             return $query;
             }),
          ])->get();
-         dd($products);
+        //  dd($products);
         return ApiResponse::success(new AllProductCollection($products));
         // PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10))
     }
