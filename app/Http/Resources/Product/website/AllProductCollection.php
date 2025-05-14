@@ -17,6 +17,7 @@ class AllProductCollection extends ResourceCollection
 
     public function __construct($resource)
     {
+        dd($resource);
         $this->pagination = [
             'total' => $resource->total(),
             'count' => $resource->count(),
