@@ -62,7 +62,7 @@ class AuthWebsiteController extends Controller
             'profile' => new LoggedInClientResource($user),
             'tokenDetails' => [
                 'token' => $token,
-                'expiresIn' => 60 * 10
+                'expiresIn' => 24 *60
             ],
         ],__('crud.created'));
     }
@@ -97,7 +97,7 @@ class AuthWebsiteController extends Controller
             'profile' => new LoggedInClientResource($user),
             'tokenDetails' => [
                 'token' => $token,
-                'expiresIn' => 60 * 10
+                'expiresIn' => $remember == 1? "all the time" : 60*24,
             ],
         ]);
     }
