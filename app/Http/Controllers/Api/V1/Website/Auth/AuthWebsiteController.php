@@ -32,7 +32,7 @@ class AuthWebsiteController extends Controller
     public function register(Request $request){
        $data= $request->validate([
             "name"=>"required|string",
-            "email"=>"required|string|email",
+            "email"=>"required|string|email|unique:client_user,email",
             "password"=>["required",
             Password::min(8)->mixedCase()->numbers()],
             // 'avatar' => ["sometimes", "nullable","image", "mimes:jpeg,jpg,png,gif,svg", "max:5120"],
@@ -54,7 +54,9 @@ class AuthWebsiteController extends Controller
             "status"=> ClientStatus::ACTIVE->value,
             "client_id" =>$client->id
             ]);
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken(//now()->addDays(3) , now()->addHours(12)
+            'register', ['*'], now()->addDays(1)
+            )->plainTextToken;
 
         return ApiResponse::success([
             'profile' => new LoggedInClientResource($user),
@@ -74,6 +76,7 @@ class AuthWebsiteController extends Controller
     }
     public function login(Request $request)
     {
+        $remember = $request->boolean('remember', 0);
         $user = ClientUser::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return ApiResponse::error(__('auth.failed'), [], HttpStatusCode::UNAUTHORIZED);
@@ -82,7 +85,14 @@ class AuthWebsiteController extends Controller
             return ApiResponse::error(__('auth.inactive_account'), [], HttpStatusCode::UNAUTHORIZED);
         }
         $user->tokens()->delete();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        //check remember
+        if($remember == 1){
+            $token = $user->createToken(//now()->addDays(3) , now()->addHours(12)
+                'login' )->plainTextToken;
+        }else {
+            $token = $user->createToken(//now()->addDays(3) , now()->addHours(12)
+                'login' ,['*'],now()->addDays(1))->plainTextToken;
+        }
         return ApiResponse::success([
             'profile' => new LoggedInClientResource($user),
             'tokenDetails' => [

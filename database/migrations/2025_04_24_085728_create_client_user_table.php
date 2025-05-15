@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->rememberToken();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate();
             $table->timestamp('email_verified_at')->nullable();
             $table->tinyInteger('status')->default(ClientStatus::INACTIVE->value);
