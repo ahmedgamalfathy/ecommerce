@@ -25,14 +25,16 @@ class Product extends Model
         'is_limited_quantity',
         'quantity',
         'category_id',
-        'sub_category_id'
+        'sub_category_id',
+        'specifications'
     ];
 
     protected function casts(): array
     {
         return [
             'status' => ProductStatus::class,
-            'is_limited_quantity' => LimitedQuantity::class
+            'is_limited_quantity' => LimitedQuantity::class,
+            'specifications' => 'json'
         ];
     }
     public function productMedia()

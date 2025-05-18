@@ -28,6 +28,7 @@ class ProductService
         ->get();
     }
     public function createProduct(array $data){
+        // dd($data['specifications']);
         $product= Product::create([
             'name'=>$data['name'],
             'price'=>$data['price'],
@@ -37,8 +38,10 @@ class ProductService
             'sub_category_id'=>$data['subCategoryId']??null,
             'quantity'=>$data['quantity']??0,
             'cost'=>$data['cost']??0,
+            'specifications'=>$data['specifications']??null,
             'is_limited_quantity'=>LimitedQuantity::from($data['isLimitedQuantity'])->value
         ]);
+
         foreach($data['productMedia'] as $media){
             $media['productId']=$product->id;
             $this->productMediaService->createProductMedia($media);
@@ -63,6 +66,7 @@ class ProductService
             'sub_category_id'=>$data['subCategoryId']??null,
             'quantity'=>$data['quantity']??0,
             'cost'=>$data['cost']??0,
+            "specifications"=>$data["specifications"]??null,
             'is_limited_quantity'=>LimitedQuantity::from($data['isLimitedQuantity'])->value
         ]);
         return $product;

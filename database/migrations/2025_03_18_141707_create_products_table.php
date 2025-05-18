@@ -20,6 +20,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('description');
+            $table->json('specifications')->nullable();
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('cost', 10, 2)->default(0);
             $table->boolean('is_limited_quantity')->default(LimitedQuantity::UNLIMITED->value);
