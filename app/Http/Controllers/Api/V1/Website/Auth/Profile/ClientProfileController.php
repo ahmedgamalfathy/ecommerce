@@ -46,13 +46,14 @@ class ClientProfileController extends Controller implements HasMiddleware
         }
         $authUser->name = $userData['name']??'';
         $authUser->email = $userData['email']??'';
-        if($avatarPath){
-            Storage::disk('public')->delete($authUser->getRawOriginal('avatar'));
+        // dd($userData->getRawOriginal('avatar'));
+        $oldAvatar = $authUser->getRawOriginal('avatar');
+        if ($oldAvatar && is_string($oldAvatar)) {
+            Storage::disk('public')->delete($oldAvatar);
         }
-        $authUser->avatar = $avatarPath;
-        $authUser->save();
-
         $clientId = ClientUser::find($authUser->id)->client_id;
+        ClientUser::where('client_id',$clientId)->update([
+         'avatar'=>$avatarPath  ]);
         $client = Client::find($clientId);
         $client->name = $userData['name']??'';
         $client->save();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Website\Product;
 
+use App\Filters\Product\FilterProductCategory;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
@@ -28,8 +29,7 @@ class ProductWebsiteController  extends Controller
     {
          $products= QueryBuilder::for(Product::class)
          ->allowedFilters(['status',
-            AllowedFilter::exact('categoryId', 'category_id'),
-            AllowedFilter::exact('subCategoryId', 'sub_category_id'),
+            AllowedFilter::custom('categoryId', new FilterProductCategory),
             AllowedFilter::custom('search', new FilterProduct),
             AllowedFilter::callback('price', function ($query, $value) {
             if (is_string($value)) {

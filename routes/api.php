@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Order\OrderItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Select\SelectController;
 use App\Http\Controllers\Api\V1\Dashboard\Auth\AuthController;
@@ -22,6 +24,7 @@ use App\Http\Controllers\Api\V1\Website\Client\ClientWebsiteController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientAdressController;
 use App\Http\Controllers\Api\V1\Dashboard\User\ChangePasswordController;
 use App\Http\Controllers\Api\V1\Dashboard\Category\SubCategoryController;
+use App\Http\Controllers\Api\V1\Website\Product\ProductWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientEmailWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientPhoneWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ClientProfileController;
@@ -29,9 +32,9 @@ use App\Http\Controllers\Api\V1\Website\Client\ClientAdressWebsiteController;
 use App\Http\Controllers\Api\V1\Dashboard\ProductMedia\ProductMediaController;
 use App\Http\Controllers\Api\V1\Website\Order\OrderController as OrderWebsite;
 use App\Http\Controllers\Api\V1\Website\Slider\SliderController as SliderWebsite;
-use App\Http\Controllers\Api\V1\Website\Product\ProductWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Category\CategoryController as CategoryWebsite;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ChangePasswordController as ChangePasswordWebsite ;
+use App\Http\Controllers\Api\V1\Website\Product\BestSellingProductController;
 
 Route::prefix('v1/admin')->group(function () {
 
@@ -84,6 +87,8 @@ Route::prefix('v1/website')->group(function(){
     Route::get('check-Quantity',CheckQuantityController::class);
     Route::put('change-password', ChangePasswordWebsite::class);
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
+    Route::get('/BestSellingProducts',[BestSellingProductController::class ,'BestSellingProducts']);
+    Route::get('/BestSellingProductsDetail/{id}',[BestSellingProductController::class ,'BestSellingProductsDetail']);
 
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
