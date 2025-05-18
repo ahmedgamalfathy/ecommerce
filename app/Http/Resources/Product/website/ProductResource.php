@@ -26,6 +26,7 @@ class ProductResource extends JsonResource
             "categoryId" => $this->category_id??"",
             "subCategoryId"=> $this->sub_category_id??"",
             "specifications"=> $this->specifications??"",
+            "stock"=> $this->quantity <10 ? $this->quantity:"",
            'productMedia' => ProductMediaResouce::collection($this->productMedia),
            "similarProducts" => AllProductResource::collection($this->getSimilarProduct())
         ];
