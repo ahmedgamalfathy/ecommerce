@@ -29,14 +29,14 @@ class ForgotPasswordController extends Controller
                     'expired_at' => now()->addMinutes(5),
                 ]);
                 Mail::to($request->email)->send(new ForgotPasswordSendCode($clientUser, $otp->code));
-            $clientUserData =[
-                "clientId"=>$clientUser->id,
-                "name"=>$clientUser->name,
-                "email"=>$clientUser->email,
-            ];
+                $clientUserData =[
+                    "clientId"=>$clientUser->id,
+                    "name"=>$clientUser->name,
+                    "email"=>$clientUser->email,
+                ];
             }
             DB::commit();
-            return ApiResponse::success($clientUser ,__('auth.send_mail'));
+            return ApiResponse::success($clientUserData ,__('auth.send_mail'));
             }catch(ValidationException $e){
                 DB::rollBack();
              return ApiResponse::success([] ,__('auth.send_mail'));
@@ -49,7 +49,7 @@ class ForgotPasswordController extends Controller
         try {
             $data= $request->validate([
                 'code' => 'required|exists:otps,code',
-                'clientId'=>['required','exists:clients,id']
+                'clientId'=>['required','exists:client_user,id']
             ]);
            $client = ClientUser::findOrFail($data['clientId']);
             $otp= Otp::where('email',$client->email)->first();
