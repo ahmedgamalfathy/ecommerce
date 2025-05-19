@@ -95,7 +95,7 @@ class ForgotPasswordController extends Controller
         DB::beginTransaction();
         try{
         $data=$request->validate([
-            'clientId'=>['required','exists:clients,id'],
+            'clientId'=>['required','exists:client_user,id'],
             'password'=>['required',Password::min(8)]
         ]);
         $client = ClientUser::findOrFail($data['clientId']);
