@@ -22,8 +22,15 @@ class ForgotPasswordController extends Controller
         DB::beginTransaction();
         try{
             $clientUser =ClientUser::where("email", $request->email)->first();
+
             if($clientUser){
-              $otp= Otp::create([
+                $otps = Otp::where("email", $request->email)->get();
+                if($otps->isNotEmpty()){
+                    foreach($otps as $otp) {
+                        $otp->delete();
+                    }
+                }
+                $otp = Otp::create([
                     "email"=>$request->email,
                     "code"=>rand(1000,9999),
                     'expired_at' => now()->addMinutes(5),
