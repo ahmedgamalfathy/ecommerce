@@ -29,6 +29,11 @@ class ForgotPasswordController extends Controller
                     'expired_at' => now()->addMinutes(5),
                 ]);
                 Mail::to($request->email)->send(new ForgotPasswordSendCode($clientUser, $otp->code));
+            $clientUserData =[
+                "clientId"=>$clientUser->id,
+                "name"=>$clientUser->name,
+                "email"=>$clientUser->email,
+            ];
             }
             DB::commit();
             return ApiResponse::success($clientUser ,__('auth.send_mail'));

@@ -5,6 +5,7 @@ namespace App\Services\Payment;
 use App\Models\Order\Order;
 use Illuminate\Http\Request;
 use App\Enums\Order\OrderStatus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Interfaces\PaymentGatewayInterface;
 use App\Services\Payment\BasePaymentService;
@@ -56,10 +57,17 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
     {
         $session_id = $request->get('session_id');
         $response=$this->buildRequest('GET','/v1/checkout/sessions/'.$session_id);
-        Storage::put('stripe.json',json_encode([
-            'callback_response'=>$request->all(),
-            'response'=>$response,
-        ]));
+        // Storage::put('stripe.json',json_encode([
+        //     'callback_response'=>$request->all(),
+        //     'response'=>$response,
+        // ]));
+        dd($response['data']['customer_details']['name']);
+        DB::table('payment_callback')->insert([
+         //session_id ,name ,email, currency ,status ,country ,payment_status,amount_total
+        'session_id'=>$request->get('session_id'),
+        'name'=>$response['data']['customer_details']['name'],
+        'p'
+        ]);
          if($response->getData(true)['success']&& $response->getData(true)['data']['payment_status']==='paid') {
              return true;
          }
