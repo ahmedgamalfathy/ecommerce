@@ -103,7 +103,7 @@ class ForgotPasswordController extends Controller
         try{
         $data=$request->validate([
             'clientId'=>['required','exists:client_user,id'],
-            'password'=>['required',Password::min(8)]
+            'password'=>['required','confirmed',Password::min(8)]
         ]);
         $client = ClientUser::findOrFail($data['clientId']);
         $otp= Otp::where('email',$client->email)->first();
