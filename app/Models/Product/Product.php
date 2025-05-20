@@ -41,9 +41,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductMedia::class);
     }
-    public function getFirstProductMedia()
+    public function firstProductMedia()
     {
-        return $this->hasMany(ProductMedia::class)->where('is_main',IsMain::PRIMARY)->limit(1)->get();
+        return $this->hasMany(ProductMedia::class)->where('is_main',IsMain::PRIMARY)->limit(1);
     }
     public function category()
     {
