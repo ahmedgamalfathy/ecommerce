@@ -56,6 +56,7 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
 
     public function callBack(Request $request): bool
     {
+        //client_id
         $session_id = $request->get('session_id');
         $response=$this->buildRequest('GET','/v1/checkout/sessions/'.$session_id);
         DB::table('payment_callback')->insert([
@@ -68,6 +69,7 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
             'country'=>$response->getData(true)['data']['customer_details']['address']['country']??null,
             'payment_status'=>$response->getData(true)['data']['payment_status']??null,
             'amount_total'=>$response->getData(true)['data']['amount_total']??null,
+            //client_id
             'created_at'=>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at'=>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
