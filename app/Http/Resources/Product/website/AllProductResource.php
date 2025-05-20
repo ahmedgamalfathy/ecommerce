@@ -18,7 +18,7 @@ class AllProductResource extends JsonResource
         return [
             'productId' => $this->id,
             'name' => $this->name,
-            'path'=>new  ProductMediaResouce($this->firstProductMedia),
+            'path'=>new  ProductMediaResouce($this->firstProductMedia),//
             'price' => $this->price,
             'status' => $this->status,
             'description' => $this->description,
