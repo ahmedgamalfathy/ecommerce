@@ -52,7 +52,7 @@ class ProductWebsiteController  extends Controller
         return  ApiResponse::error(__('crud.not_found'),[],HttpStatusCode::NOT_FOUND);
       }
      $product->getSimilarProduct();
-     $product->getFirstProductMedia();
+    //  $product->getFirstProductMedia();
       return ApiResponse::success(new ProductResource($product));
     }
 }
