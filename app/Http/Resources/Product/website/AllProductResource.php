@@ -8,7 +8,7 @@ use App\Http\Resources\ProductMedia\ProductMediaResouce;
 
 class AllProductResource extends JsonResource
 {
-    /** 
+    /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
@@ -18,7 +18,7 @@ class AllProductResource extends JsonResource
         return [
             'productId' => $this->id,
             'name' => $this->name,
-            'path'=> ProductMediaResouce::collection($this->getFirstProductMedia()),
+            'path'=>new  ProductMediaResouce($this->firstProductMedia),
             'price' => $this->price,
             'status' => $this->status,
             'description' => $this->description,
