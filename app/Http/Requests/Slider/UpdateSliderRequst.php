@@ -29,8 +29,7 @@ class UpdateSliderRequst extends FormRequest
     public function rules(): array
     {
         return [
-            "sliderId"=>['required'],
-            "name" => ['required',Rule::unique('sliders')->ignore($this->input('sliderId')),],
+            "name" => ['required', Rule::unique('sliders')->ignore($this->route('slider'))],
             "isActive"=>['required',new Enum(IsActive::class)],
             "startDate"=>['nullable','date'],
             'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],

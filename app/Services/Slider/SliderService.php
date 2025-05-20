@@ -42,9 +42,9 @@ public function createSlider(array $data)
 }
 public function updateSlider(int $id, array $data)
 {
-   $slider= Slider::find($data['sliderId']);
+   $slider= Slider::find($id);
    $slider->name =$data['name'];
-   $slider->is_active =$data['isActive'];
+   $slider->is_active =IsActive::from($data['isActive'])->value;
    $slider->start_date =$data['startDate'];
    $slider->end_date =$data['endDate'];
    $slider->save();

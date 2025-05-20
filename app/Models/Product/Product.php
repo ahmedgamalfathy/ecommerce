@@ -43,7 +43,7 @@ class Product extends Model
     }
     public function firstProductMedia()
     {
-        return $this->hasMany(ProductMedia::class)->where('is_main',IsMain::PRIMARY)->limit(1);
+        return $this->hasOne(ProductMedia::class)->where('is_main', IsMain::PRIMARY);
     }
     public function category()
     {
