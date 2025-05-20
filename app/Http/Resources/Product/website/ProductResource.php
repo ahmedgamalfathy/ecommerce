@@ -29,6 +29,6 @@ class ProductResource extends JsonResource
             "stock"=> $this->quantity <10 ? $this->quantity:"",
            'productMedia' => ProductMediaResouce::collection($this->productMedia),
            "similarProducts" => AllProductResource::collection($this->getSimilarProduct())
-        ];
+        ];//
     }
 }

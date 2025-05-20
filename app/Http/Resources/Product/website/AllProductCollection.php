@@ -33,5 +33,5 @@ class AllProductCollection extends ResourceCollection
             'products' => AllProductResource::collection($this->collection),
             'pagination' => $this->pagination
            ];
-    }
+    }//
 }

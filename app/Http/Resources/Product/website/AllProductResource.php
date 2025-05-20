@@ -23,5 +23,5 @@ class AllProductResource extends JsonResource
             'status' => $this->status,
             'description' => $this->description,
         ];
-    }
+    }//
 }
