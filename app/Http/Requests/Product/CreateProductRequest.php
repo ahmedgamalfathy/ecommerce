@@ -52,6 +52,7 @@ class CreateProductRequest extends FormRequest
     {
         return [
             'name.required'=> __('validation.custom.required'),
+            'name.unique'=> __('validation.custom.unique'),
             'price.required' => __('validation.custom.required'),
             'cost.required' => __('validation.custom.required'),
             'isLimitedQuantity.required' => __('validation.custom.required'),

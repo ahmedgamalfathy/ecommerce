@@ -17,6 +17,7 @@ use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\AllProductCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -89,7 +90,9 @@ class ProductController extends Controller implements HasMiddleware
             $this->productService->updateProduct($id,$updateProductRequest->validated());
             DB::commit();
             return ApiResponse::success([], __('crud.updated'));
-        } catch (Throwable $th) {
+        } catch (ValidationException $th) {
+            ApiResponse::error('', $th->errors(), HttpStatusCode::UNPROCESSABLE_ENTITY);
+        }catch (Throwable $th) {
             return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
 
