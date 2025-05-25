@@ -30,7 +30,7 @@ class CreateProductRequest extends FormRequest
     {
         return [
             "productMedia" => ["required", "array"],
-            "name" => ["required", "string", "max:255"],
+            "name" => ["required", "string", "max:255","unique:products,name"],
             "price" => ["required"],
             "status" => ["required", new Enum(ProductStatus::class)],
             "description" => ["nullable", "string"],

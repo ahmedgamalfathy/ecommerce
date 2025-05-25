@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Product;
 
-use App\Enums\Product\LimitedQuantity;
 use App\Helpers\ApiResponse;
+use Illuminate\Validation\Rule;
 use App\Enums\Product\ProductStatus;
 use Illuminate\Validation\Rules\Enum;
+use App\Enums\Product\LimitedQuantity;
 use App\Enums\ResponseCode\HttpStatusCode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -30,7 +31,7 @@ class UpdateProductRequest extends FormRequest
     {//categoryId, name, description, price, status
         return [
             "categoryIds" => ["required"],
-            "name" => ["required", "string", "max:255"],
+            "name" => ["required", "string", "max:255",Rule::unique('products')->ignore($this->route('product'))],
             "description" => ["nullable", "string", "max:255"],
             "price" => ["required"],
             "status" => ["required", new Enum(ProductStatus::class)],
