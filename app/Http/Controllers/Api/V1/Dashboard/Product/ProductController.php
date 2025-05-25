@@ -91,7 +91,7 @@ class ProductController extends Controller implements HasMiddleware
             DB::commit();
             return ApiResponse::success([], __('crud.updated'));
         } catch (ValidationException $th) {
-            ApiResponse::error('', $th->errors(), HttpStatusCode::UNPROCESSABLE_ENTITY);
+            return ApiResponse::error('', $th->errors(), HttpStatusCode::UNPROCESSABLE_ENTITY);
         }catch (Throwable $th) {
             return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
