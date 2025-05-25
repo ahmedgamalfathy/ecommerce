@@ -31,7 +31,7 @@ class UpdateProductRequest extends FormRequest
     {//categoryId, name, description, price, status
         return [
             "categoryIds" => ["required"],
-            "name" => ["required", "string", "max:255",Rule::unique('products')->ignore($this->route('product'))],
+            "name" => ["required", "string", "max:255",Rule::unique('products')->ignore($this->route('product'))],//ignore the product id
             "description" => ["nullable", "string", "max:255"],
             "price" => ["required"],
             "status" => ["required", new Enum(ProductStatus::class)],
