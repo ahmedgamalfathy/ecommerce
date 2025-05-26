@@ -58,7 +58,7 @@ Route::prefix('v1/admin')->group(function () {
     Route::apiSingleton('profile', UserProfileController::class);
     Route::put('profile/change-password', ChangePasswordController::class);
     Route::prefix('selects')->group(function(){
-        Route::get('', [SelectController::class, 'getSelects']);
+    Route::get('', [SelectController::class, 'getSelects']);
     });
     Route::get('/stats',StatsController::class);
 
@@ -86,7 +86,7 @@ Route::prefix('v1/website')->group(function(){
     Route::apiResource("client-web-addresses",ClientAdressWebsiteController::class);
     Route::get('check-Quantity',CheckQuantityController::class);
     Route::put('change-password', ChangePasswordWebsite::class);
-    Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
+    Route::post('/payment/process', [PaymentController::class, 'paymentProcess'])->middleware('auth:client');
     Route::get('/BestSellingProducts',[BestSellingProductController::class ,'BestSellingProducts']);
     Route::get('/BestSellingProductsDetail/{id}',[BestSellingProductController::class ,'BestSellingProductsDetail']);
 

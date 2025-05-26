@@ -31,11 +31,13 @@ class OrderController extends Controller
     {
         try {
             DB::beginTransaction();
+
             $data =$createOrderRequest->validated();
-             $client=Client::create([
-                     'name'=>$data['name'],
-                     'note'=>$data['note'],
-              ]);
+            $client=Client::create([
+                'name'=>$data['name'],
+                'note'=>$data['note'],
+            ]);
+
              if (isset($data['phones'])) {
                  foreach ($data['phones'] as $index => $phone) {
                      $primaryPhoneId = null;
@@ -50,6 +52,7 @@ class OrderController extends Controller
                     }
                  }
              }
+
              if (isset($data['emails'])) {
                 $primaryEmailId = null;
                  foreach ($data['emails'] as $index => $email) {
@@ -80,18 +83,19 @@ class OrderController extends Controller
                  }
              }
              ////////////////order create////////////////////
+
              $totalCost =0;
              $totalPrice = 0;
              $totalPriceAfterDiscount = 0;
 
              $order = Order::create([
-                 'discount' => $data['discount']??null,
-                 'discount_type' => DiscountType::from($data['discountType'])->value,
+                 'discount' =>0.00,
+                 'discount_type' =>0,
                  'client_phone_id' => $primaryPhoneId,
                  'client_email_id' => $primaryEmailId,
                  'client_address_id' => $primaryAddressId,
                  'client_id' => $client->id,
-                 'status' => OrderStatus::from($data['status'])->value,
+                 'status' => 0,
              ]);
 
              $avilableQuantity = [];
@@ -130,10 +134,11 @@ class OrderController extends Controller
              ]);
             DB::commit();
             return ApiResponse::success([],__('crud.created'));
-        } catch (\Throwable $th) {
-            return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
-        }
-    }
 
+    }catch (\Exception $e){
+        DB::rollBack();
+        return ApiResponse::error($e->getMessage());
+     }
+    }
 }
 

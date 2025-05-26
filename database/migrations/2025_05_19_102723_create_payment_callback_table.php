@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payment_callback', function (Blueprint $table) {
             $table->id();
             $table->string('session_id')->nullable();
+            $table->integer('client_id')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('currency')->nullable();
