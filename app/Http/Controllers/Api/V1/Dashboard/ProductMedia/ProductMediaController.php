@@ -51,14 +51,13 @@ class ProductMediaController extends Controller
     public function store(CreateProductMediaRequest $createProductMediaRequest)
     {
        try{
-            $data =$createProductMediaRequest->validated();
-            foreach($data['productMedia'] as $media){
-                $this->productMediaService->createProductMedia($media);
-            }
-
-            return ApiResponse::success([],__('crud.created'));
+        $data =$createProductMediaRequest->validated();
+        foreach($data['productMedia'] as $media){
+            $this->productMediaService->createProductMedia($media);
+        }
+        return ApiResponse::success([],__('crud.created'));
         }catch(\Exception $e){
-            return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
+        return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
     /**

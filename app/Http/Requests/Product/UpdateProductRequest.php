@@ -30,7 +30,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {//categoryId, name, description, price, status
         return [
-            "categoryIds" => ["required"],
+            // "categoryIds" => ["required"],
             "name" => ["required", "string", "max:255",Rule::unique('products')->ignore($this->route('product'))],
             "description" => ["nullable", "string", "max:255"],
             "price" => ["required"],

@@ -19,9 +19,9 @@ class ProductMediaService{
         return ProductMedia::where('product_id',$productId)->get();
     }
     public function createProductMedia(array $data){
-     $path=null;
-        if(isset($data['path'])){
-        $path = $this->uploadService->uploadFile($data['path'], 'media');
+    $path=null;
+    if(isset($data['path'])){
+    $path = $this->uploadService->uploadFile($data['path'], 'media');
     }
     return ProductMedia::create([
         'path'=>$path,

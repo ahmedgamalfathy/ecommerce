@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api\V1\Website\Client;
 
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use App\Models\Client\ClientUser;
 use App\Utils\PaginateCollection;
 use App\Http\Controllers\Controller;
 use App\Enums\ResponseCode\HttpStatusCode;
 use App\Services\Client\ClientEmailService;
-use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Client\ClientEmails\ClientEmailResource;
 use App\Http\Requests\Client\ClientEmail\CreateClientEmailRequest;
@@ -31,8 +32,9 @@ class ClientEmailWebsiteController extends Controller implements HasMiddleware
  }
     public function index(Request $request)
     {
-
-        $ClientEmail = $this->clientEmailService->allClientEmails($request->clientId);
+        $clienUsertId = $request->user()->id;
+        $clientId = ClientUser::where('id', $clienUsertId)->first()->client_id;
+        $ClientEmail = $this->clientEmailService->allClientEmails($clientId);
         return ApiResponse::success(new AllClientEmailCollection(PaginateCollection::paginate( $ClientEmail, $request->pageSize?$request->pageSize:10)));
     }
     public function store(CreateClientEmailRequest $createClientEmailRequest)

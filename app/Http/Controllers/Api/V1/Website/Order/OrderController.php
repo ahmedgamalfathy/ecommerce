@@ -17,6 +17,7 @@ use App\Models\Client\ClientAdrress;
 use App\Enums\Product\LimitedQuantity;
 use App\Services\Order\OrderItemService;
 use App\Enums\ResponseCode\HttpStatusCode;
+use App\Http\Resources\Order\Website\OrderResource;
 use App\Http\Requests\Order\Website\CreateOrderRequest;
 
 class OrderController extends Controller
@@ -133,12 +134,13 @@ class OrderController extends Controller
                  'total_cost'=>$totalCost
              ]);
             DB::commit();
-            return ApiResponse::success([],__('crud.created'));
-
+            // return ApiResponse::success([],__('crud.created'));
+            return ApiResponse::success(new OrderResource($order));
     }catch (\Exception $e){
         DB::rollBack();
         return ApiResponse::error($e->getMessage());
      }
     }
+
 }
 

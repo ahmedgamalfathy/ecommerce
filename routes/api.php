@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\V1\Website\Order\OrderController as OrderWebsite;
 use App\Http\Controllers\Api\V1\Website\Slider\SliderController as SliderWebsite;
 use App\Http\Controllers\Api\V1\Website\Category\CategoryController as CategoryWebsite;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ChangePasswordController as ChangePasswordWebsite ;
+use App\Http\Controllers\Api\V1\Website\Order\AuthOrderController;
 use App\Http\Controllers\Api\V1\Website\Product\BestSellingProductController;
 
 Route::prefix('v1/admin')->group(function () {
@@ -57,9 +58,6 @@ Route::prefix('v1/admin')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiSingleton('profile', UserProfileController::class);
     Route::put('profile/change-password', ChangePasswordController::class);
-    Route::prefix('selects')->group(function(){
-    Route::get('', [SelectController::class, 'getSelects']);
-    });
     Route::get('/stats',StatsController::class);
 
 });//admin
@@ -84,11 +82,16 @@ Route::prefix('v1/website')->group(function(){
     Route::apiResource("clients-web" , ClientWebsiteController::class)->only(['index']);
     Route::apiResource("client-web-phones" , ClientPhoneWebsiteController::class);
     Route::apiResource("client-web-addresses",ClientAdressWebsiteController::class);
+    Route::apiResource("client-web-emails",ClientEmailWebsiteController::class);
     Route::get('check-Quantity',CheckQuantityController::class);
     Route::put('change-password', ChangePasswordWebsite::class);
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess'])->middleware('auth:client');
     Route::get('/BestSellingProducts',[BestSellingProductController::class ,'BestSellingProducts']);
     Route::get('/BestSellingProductsDetail/{id}',[BestSellingProductController::class ,'BestSellingProductsDetail']);
+    Route::post('orders-auth',[AuthOrderController::class,'store']);
 
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
+Route::prefix('v1/selects')->group(function(){
+    Route::get('', [SelectController::class, 'getSelects']);
+});
