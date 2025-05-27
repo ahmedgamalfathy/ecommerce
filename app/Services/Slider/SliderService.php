@@ -38,6 +38,12 @@ public function createSlider(array $data)
     'end_date'=>$data['endDate']
     ]);
     $slider->products()->attach($data['sliderItems']);
+    if ($data['isActive'] == 1) {
+        Slider::where('id', '!=', $slider->id)
+        ->where('is_active', 1)
+        ->update(['is_active' => 0]);
+    }
+
     return $slider;
 }
 public function updateSlider(int $id, array $data)
