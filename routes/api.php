@@ -85,11 +85,10 @@ Route::prefix('v1/website')->group(function(){
     Route::apiResource("client-web-emails",ClientEmailWebsiteController::class);
     Route::get('check-Quantity',CheckQuantityController::class);
     Route::put('change-password', ChangePasswordWebsite::class);
-    Route::post('/payment/process', [PaymentController::class, 'paymentProcess'])->middleware('auth:client');
     Route::get('/BestSellingProducts',[BestSellingProductController::class ,'BestSellingProducts']);
     Route::get('/BestSellingProductsDetail/{id}',[BestSellingProductController::class ,'BestSellingProductsDetail']);
     Route::post('orders-auth',[AuthOrderController::class,'store']);
-
+    Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
 Route::prefix('v1/selects')->group(function(){

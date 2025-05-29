@@ -32,8 +32,8 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
     public function sendPayment(Request $request): array
     {
         //order_id
-        $clientUserId = $request->user()->id;
-        $clientUser = ClientUser::find($clientUserId)->client_id;
+        // $clientUserId = $request->user()->id;
+        // $clientUser = ClientUser::find($clientUserId)->client_id;
 
         $orderId = $request->input('orderId');
         $order = Order::find($orderId);
@@ -43,7 +43,7 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
         $data = $this->formatData([
             "amount" => $order->price_after_discount * 100,
             "currency" => "USD",
-            "client_id" => $clientUser,
+            "client_id" => $order->client_id,
             "host" => $request->getSchemeAndHttpHost(),
         ]);
 
