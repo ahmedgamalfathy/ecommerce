@@ -22,7 +22,7 @@ class SliderResource extends JsonResource
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
             'isActive' => $this->is_active,
-            'sliderItems'=> SliderProductResource::collection($this->products)
+            'sliderItems'=> SliderProductResource::collection($this->products()->where('status', 1)->get())
         ];
     }
 }

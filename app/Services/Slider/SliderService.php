@@ -55,6 +55,11 @@ public function updateSlider(int $id, array $data)
    $slider->end_date =$data['endDate'];
    $slider->save();
    $slider->products()->sync($data['sliderItems']);
+   if ($data['isActive'] == 1) {
+    Slider::where('id', '!=', $slider->id)
+    ->where('is_active', 1)
+    ->update(['is_active' => 0]);
+}
 }
 public function deleteSlider(int $id)
 {
