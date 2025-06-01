@@ -44,13 +44,16 @@ class ClientProfileController extends Controller implements HasMiddleware
         if(isset($userData['avatar']) && $userData['avatar'] instanceof UploadedFile){
             $avatarPath =  $this->uploadService->uploadFile($userData['avatar'],'clientAvatars');
         }
-        $authUser->name = $userData['name']??'';
-        $authUser->email = $userData['email']??'';
+        $clientUser = ClientUser::find($authUser->id);
+        $clientUser->name = $userData['name']??'';
+        $clientUser->email = $userData['email']??'';
         // dd($userData->getRawOriginal('avatar'));
-        $oldAvatar = $authUser->getRawOriginal('avatar');
+        $oldAvatar = $clientUser->getRawOriginal('avatar');
         if ($oldAvatar && is_string($oldAvatar)) {
             Storage::disk('public')->delete($oldAvatar);
         }
+        $clientUser->avatar = $avatarPath;
+        $clientUser->save();
         $clientId = ClientUser::find($authUser->id)->client_id;
         ClientUser::where('client_id',$clientId)->update([
          'avatar'=>$avatarPath  ]);
