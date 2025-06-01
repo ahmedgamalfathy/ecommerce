@@ -91,6 +91,8 @@ Route::prefix('v1/website')->group(function(){
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 Route::prefix('v1/selects')->group(function(){
-    Route::get('', [SelectController::class, 'getSelects']);
+  Route::get('', [SelectController::class, 'getSelects']);
 });

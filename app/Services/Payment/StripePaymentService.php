@@ -7,6 +7,8 @@ use App\Models\Order\Order;
 use Illuminate\Http\Request;
 use App\Models\Client\Client;
 use App\Enums\Order\OrderStatus;
+use App\Enums\ResponseCode\HttpStatusCode;
+use App\Helpers\ApiResponse;
 use App\Models\Client\ClientUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -29,17 +31,17 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
 
     }
 
-    public function sendPayment(Request $request): array
+    public function sendPayment(Request $request)
     {
-        //order_id
-        // $clientUserId = $request->user()->id;
-        // $clientUser = ClientUser::find($clientUserId)->client_id;
-
         $orderId = $request->input('orderId');
         $order = Order::find($orderId);
         if(!$order){
-            return ['success' => false,'url'=>route('payment.failed')];
+            return ApiResponse::error(__('crud.not_found'),[],HttpStatusCode::NOT_FOUND);
         }
+        if($order->status != OrderStatus::DRAFT->value){
+            return ApiResponse::error(__(' Order must be in draft status to process payment'),[],HttpStatusCode::UNPROCESSABLE_ENTITY);
+        }
+
         $data = $this->formatData([
             "amount" => $order->price_after_discount * 100,
             "currency" => "USD",
@@ -51,9 +53,11 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
         if($response->getData(true)['success']) {
             $order->status = OrderStatus::CONFIRM->value;
             $order->save();
+
             foreach ($order->items as $item) {
-            $item->product->decrement('quantity', $item->qty);
+                $item->product->decrement('quantity', $item->qty);
             }
+
             return ['success' => true, 'url' => $response->getData(true)['data']['url']];
         }
         return ['success' => false,'url'=>route('payment.failed')];
