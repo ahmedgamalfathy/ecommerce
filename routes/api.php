@@ -88,6 +88,8 @@ Route::prefix('v1/website')->group(function(){
     Route::get('/BestSellingProducts',[BestSellingProductController::class ,'BestSellingProducts']);
     Route::get('/BestSellingProductsDetail/{id}',[BestSellingProductController::class ,'BestSellingProductsDetail']);
     Route::post('orders-auth',[AuthOrderController::class,'store']);
+    Route::get('orders-auth/{id}',[AuthOrderController::class,'show']);
+    Route::put('orders-update/{id}',[AuthOrderController::class,'update']);
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
