@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
 use App\Models\Client\Client;
 use App\Enums\Order\OrderStatus;
 use App\Enums\Order\DiscountType;
+use function Laravel\Prompts\form;
 use App\Http\Controllers\Controller;
 use App\Enums\Product\LimitedQuantity;
 use App\Services\Order\OrderItemService;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use App\Http\Resources\Order\Website\OrderResource;
 
-use function Laravel\Prompts\form;
+use App\Http\Resources\Order\Website\OrderResource;
+use App\Http\Resources\Order\OrderItem\Website\OrderItemResource;
 
 class AuthOrderController extends Controller implements HasMiddleware
 {

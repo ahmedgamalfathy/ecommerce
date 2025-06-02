@@ -27,7 +27,7 @@ class OrderItemResource extends JsonResource
             'product' => [
                 'productId' => $this->product_id,
                 'name' => $this->product->name,
-                'path'=> ProductMediaResouce::collection($this->product->getFirstProductMedia()) ,
+                'path'=> ProductMediaResouce::collection($this->product->productMedia) ,
             ]
         ];
 

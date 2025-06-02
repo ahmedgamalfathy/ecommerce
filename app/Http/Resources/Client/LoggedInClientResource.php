@@ -12,6 +12,7 @@ class LoggedInClientResource extends JsonResource{
     public function toArray(Request $request): array
     {
         return [
+            "clientId"=>$this->client_id??"",
             "avatar"=>$this->avatar,
             "name" => $this->name,
             "email" => $this->email,

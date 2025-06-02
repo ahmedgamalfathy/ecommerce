@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\V1\Website\Slider\SliderController as SliderWebsite
 use App\Http\Controllers\Api\V1\Website\Category\CategoryController as CategoryWebsite;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ChangePasswordController as ChangePasswordWebsite ;
 use App\Http\Controllers\Api\V1\Website\Order\AuthOrderController;
+use App\Http\Controllers\Api\V1\Website\Order\AuthOrderItemController;
 use App\Http\Controllers\Api\V1\Website\Product\BestSellingProductController;
 
 Route::prefix('v1/admin')->group(function () {
@@ -90,6 +91,11 @@ Route::prefix('v1/website')->group(function(){
     Route::post('orders-auth',[AuthOrderController::class,'store']);
     Route::get('orders-auth/{id}',[AuthOrderController::class,'show']);
     Route::put('orders-update/{id}',[AuthOrderController::class,'update']);
+    Route::get('/orderItems',[AuthOrderItemController::class , 'index']);
+    Route::get('/orderItems/{id}',[AuthOrderItemController::class , 'edit']);
+    Route::post('/orderCreate',[AuthOrderItemController::class , 'store']);
+    Route::put('/orderUpdate/{id}',[AuthOrderItemController::class , 'update']);
+    Route::delete('/orderDelete/{id}',[AuthOrderItemController::class , 'destory']);
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
