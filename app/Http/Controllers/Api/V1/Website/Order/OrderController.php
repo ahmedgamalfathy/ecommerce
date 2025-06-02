@@ -32,13 +32,11 @@ class OrderController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $data =$createOrderRequest->validated();
             $client=Client::create([
                 'name'=>$data['name'],
                 'note'=>$data['note'],
             ]);
-
              if (isset($data['phones'])) {
                  foreach ($data['phones'] as $index => $phone) {
                      $primaryPhoneId = null;
@@ -53,7 +51,6 @@ class OrderController extends Controller
                     }
                  }
              }
-
              if (isset($data['emails'])) {
                 $primaryEmailId = null;
                  foreach ($data['emails'] as $index => $email) {

@@ -53,9 +53,9 @@ class ClientPhoneWebsiteController extends Controller implements HasMiddleware
     {
         try{
             $data = $createClientContactRequest->validated();
-            $clientUserId = $createClientContactRequest->user()->id;
-            $clientId = ClientUser::where('id', $clientUserId)->first()->client_id;
-            $data['clientId'] = $clientId;
+            // $clientUserId = $createClientContactRequest->user()->id;
+            // $clientId = ClientUser::where('id', $clientUserId)->first()->client_id;
+            // $data['clientId'] = $clientId;
             $this->clientPhoneService->createClientPhone($data);
             return ApiResponse::success([], __('crud.created'),  HttpStatusCode::CREATED);
         }catch(\Throwable $th){

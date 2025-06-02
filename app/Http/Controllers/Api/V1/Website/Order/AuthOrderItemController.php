@@ -59,7 +59,7 @@ class AuthOrderItemController extends Controller implements HasMiddleware
         $auth = $request->user();
         $client = Client::findOrFail($auth->client_id);
         $product = Product::where('id', $data['productId'])->select(['cost','price'])->first();
-        $order = OrderItem::create([
+        $orderItem = OrderItem::create([
             'order_id' => $data['orderId'],
             'product_id' => $data['productId'],
             'price' => $product->price,
@@ -67,17 +67,28 @@ class AuthOrderItemController extends Controller implements HasMiddleware
             'qty' => $data['qty'],
         ]);
         $avilableQuantity = [];
-        if($order->product->is_limited_quantity == LimitedQuantity::LIMITED && $order->product->quantity < $item->qty){
-            if ($order->product->quantity < $order->qty) {
+        if($orderItem->product->is_limited_quantity == LimitedQuantity::LIMITED && $orderItem->product->quantity < $orderItem->qty){
+            if ($orderItem->product->quantity < $orderItem->qty) {
                 $avilableQuantity[] = [
-                    'productId' => $order->product->id,
-                    'quantity' => $order->product->quantity,
-                    'name' => $order->product->name
+                    'productId' => $orderItem->product->id,
+                    'quantity' => $orderItem->product->quantity,
+                    'name' => $orderItem->product->name
                 ];
                 return  $avilableQuantity;
             }
            //  $item->product->decrement('quantity', $item->qty);
         }
+        // $order = Order::findOrFail($orderItem->id);
+        // $totalCost =0;
+        // $totalPrice = 0;
+        // $totalPriceAfterDiscount = 0;
+        // if ($order->discount_type == DiscountType::PERCENTAGE) {
+        //     $totalPriceAfterDiscount = $totalPrice - ($totalPrice * ($data['discount'] / 100));
+        // } elseif ($order->discount_type == DiscountType::FIXCED) {
+        //     $totalPriceAfterDiscount = $totalPrice - $data['discount'];
+        // }elseif($order->discount_type == DiscountType::NO_DISCOUNT){
+        //     $totalPriceAfterDiscount = $totalPrice;
+        // }
         return ApiResponse::success(__('crud.created'));
     }
     public function update(Request $request ,$id)
