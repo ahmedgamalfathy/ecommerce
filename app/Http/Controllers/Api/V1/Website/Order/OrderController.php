@@ -37,49 +37,26 @@ class OrderController extends Controller
                 'name'=>$data['name'],
                 'note'=>$data['note'],
             ]);
-             if (isset($data['phones'])) {
-                 foreach ($data['phones'] as $index => $phone) {
-                     $primaryPhoneId = null;
-                     $clientPhone = ClientPhone::create([
-                         'client_id' => $client->id,
-                         'phone' => $phone['phone'],
-                         'country_code' => $data['countryCode'] ?? null,
-                         'is_main' => ($index === 0) ? IsMain::PRIMARY->value : IsMain::SECONDARY->value,
-                     ]);
-                    if ($index === 0) {
-                        $primaryPhoneId = $clientPhone->id;
-                    }
-                 }
-             }
-             if (isset($data['emails'])) {
-                $primaryEmailId = null;
-                 foreach ($data['emails'] as $index => $email) {
-                    $clientEmail = ClientEmail::create([
-                         'client_id' => $client->id,
-                         'email' => $email['email'],
-                        'is_main' => ($index === 0) ? IsMain::PRIMARY->value : IsMain::SECONDARY->value,
-                     ]);
-                    if ($index === 0) {
-                        $primaryEmailId = $clientEmail->id;
-                    }
-                 }
-             }
-             if (isset($data['addresses'])) {
-                $primaryAddressId = null;
-                 foreach ($data['addresses'] as $index => $address) {
-                  $clientAddress = ClientAdrress::create([
-                         'client_id' => $client->id,
-                         'address' => $address['address'],
-                         'street_number'=>$address['streetNumber']??null,
-                         'city'=>$address['city']??null,
-                         'region'=>$address['region']??null,
-                        'is_main' => ($index === 0) ? IsMain::PRIMARY->value : IsMain::SECONDARY->value,
-                     ]);
-                     if ($index === 0) {
-                        $primaryAddressId = $clientAddress->id;
-                    }
-                 }
-             }
+            //name ,note ,phone ,countryCode ,email ,address ,streetNumber , city ,region
+            $clientPhone = ClientPhone::create([
+                'client_id' => $client->id,
+                'phone' => $data['phone'],
+                'country_code' => $data['countryCode'] ?? null,
+                'is_main' =>  IsMain::PRIMARY->value,
+            ]);
+            $clientEmail = ClientEmail::create([
+                'client_id' => $client->id,
+                'email' => $data['email'],
+                'is_main' => IsMain::PRIMARY->value ,
+            ]);
+            $clientAddress = ClientAdrress::create([
+                'client_id' => $client->id,
+                'address' => $data['address'],
+                'street_number'=>$data['streetNumber']??null,
+                'city'=>$data['city']??null,
+                'region'=>$data['region']??null,
+                'is_main' => IsMain::PRIMARY->value ,
+            ]);
              ////////////////order create////////////////////
 
              $totalCost =0;
@@ -89,9 +66,9 @@ class OrderController extends Controller
              $order = Order::create([
                  'discount' =>0.00,
                  'discount_type' =>0,
-                 'client_phone_id' => $primaryPhoneId,
-                 'client_email_id' => $primaryEmailId,
-                 'client_address_id' => $primaryAddressId,
+                 'client_phone_id' => $clientPhone->id,
+                 'client_email_id' => $clientEmail->id,
+                 'client_address_id' =>$clientAddress->id,
                  'client_id' => $client->id,
                  'status' => 0,
              ]);

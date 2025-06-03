@@ -78,17 +78,26 @@ class AuthOrderItemController extends Controller implements HasMiddleware
             }
            //  $item->product->decrement('quantity', $item->qty);
         }
-        // $order = Order::findOrFail($orderItem->id);
-        // $totalCost =0;
-        // $totalPrice = 0;
-        // $totalPriceAfterDiscount = 0;
-        // if ($order->discount_type == DiscountType::PERCENTAGE) {
-        //     $totalPriceAfterDiscount = $totalPrice - ($totalPrice * ($data['discount'] / 100));
-        // } elseif ($order->discount_type == DiscountType::FIXCED) {
-        //     $totalPriceAfterDiscount = $totalPrice - $data['discount'];
-        // }elseif($order->discount_type == DiscountType::NO_DISCOUNT){
-        //     $totalPriceAfterDiscount = $totalPrice;
-        // }
+        $order = Order::findOrFail($orderItem->order_id);
+        $totalCost =$order->total_cost;
+        $totalPrice = $order->price;
+        $totalPriceAfterDiscount = $order->price_after_discount;
+
+        $totalPrice += $orderItem->price * $orderItem->qty;
+        $totalCost += $orderItem->cost*$orderItem->qty;
+
+        if ($order->discount_type == DiscountType::PERCENTAGE) {
+            $totalPriceAfterDiscount = $totalPrice - ($totalPrice * ($order->discount / 100));
+        } elseif ($order->discount_type == DiscountType::FIXCED) {
+            $totalPriceAfterDiscount = $totalPrice - $order->discount;
+        }elseif($order->discount_type == DiscountType::NO_DISCOUNT){
+            $totalPriceAfterDiscount = $totalPrice;
+        }
+        $order->update([
+            'price_after_discount' => $totalPriceAfterDiscount,
+            'price' => $totalPrice,
+            'total_cost'=>$totalCost
+        ]);
         return ApiResponse::success(__('crud.created'));
     }
     public function update(Request $request ,$id)
