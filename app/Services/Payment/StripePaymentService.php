@@ -38,7 +38,7 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
         if(!$order){
             return ApiResponse::error(__('crud.not_found'),[],HttpStatusCode::NOT_FOUND);
         }
-        if($order->status != OrderStatus::DRAFT->value){
+        if($order->status != OrderStatus::DRAFT){
             return ApiResponse::error(__(' Order must be in draft status to process payment'),[],HttpStatusCode::UNPROCESSABLE_ENTITY);
         }
 

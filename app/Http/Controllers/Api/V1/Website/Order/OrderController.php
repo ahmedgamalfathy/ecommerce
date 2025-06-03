@@ -36,8 +36,7 @@ class OrderController extends Controller
             $client=Client::create([
                 'name'=>$data['name'],
                 'note'=>$data['note'],
-            ]);
-            //name ,note ,phone ,countryCode ,email ,address ,streetNumber , city ,region
+            ]); //name ,note ,phone ,countryCode ,email ,address ,streetNumber , city ,region
             $clientPhone = ClientPhone::create([
                 'client_id' => $client->id,
                 'phone' => $data['phone'],
@@ -58,11 +57,9 @@ class OrderController extends Controller
                 'is_main' => IsMain::PRIMARY->value ,
             ]);
              ////////////////order create////////////////////
-
              $totalCost =0;
              $totalPrice = 0;
              $totalPriceAfterDiscount = 0;
-
              $order = Order::create([
                  'discount' =>0.00,
                  'discount_type' =>0,
@@ -72,14 +69,12 @@ class OrderController extends Controller
                  'client_id' => $client->id,
                  'status' => 0,
              ]);
-
              $avilableQuantity = [];
              foreach ($data['orderItems'] as $itemData) {
                  $item= $this->orderItemService->createOrderItem([
                          'orderId' => $order->id,
                          ...$itemData
                      ]);
-
                  if($item->product->is_limited_quantity == LimitedQuantity::LIMITED && $item->product->quantity < $item->qty){
                      if ($item->product->quantity < $item->qty) {
                          $avilableQuantity[] = [
