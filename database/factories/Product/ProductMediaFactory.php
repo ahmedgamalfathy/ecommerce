@@ -20,7 +20,7 @@ class ProductMediaFactory extends Factory
     public function definition(): array
     {
         return [
-            'path' => 'factory/book.png',
+            'path' => 'ProductMedia/book.jpg',
             'type' => $this->faker->randomElement([MediaType::IMAGE->value, MediaType::VIDEO->value]),
             'is_main' => $this->faker->randomElement([IsMain::PRIMARY->value, IsMain::SECONDARY->value]),
             'product_id' => Product::inRandomOrder()->first()->id,

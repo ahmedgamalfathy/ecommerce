@@ -21,7 +21,7 @@ return new class extends Migration
         Schema::create('client_phones', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('phone')->unique();//secondary
+            $table->string('phone');//secondary
             $table->boolean('is_main')->default(IsMain::SECONDARY->value);
             $table->string('country_code')->nullable();
             $this->CreatedUpdatedByRelationship($table);

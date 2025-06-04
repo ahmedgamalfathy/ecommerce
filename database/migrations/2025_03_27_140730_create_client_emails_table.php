@@ -19,7 +19,7 @@ return new class extends Migration
         Schema::create('client_emails', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->boolean('is_main')->default(IsMain::SECONDARY->value);
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
