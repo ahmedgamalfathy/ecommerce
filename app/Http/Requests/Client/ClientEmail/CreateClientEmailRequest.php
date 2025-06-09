@@ -31,7 +31,7 @@ class CreateClientEmailRequest extends FormRequest
     {
         return [
             'clientId' => 'required|integer',
-            'email' => 'required|string|unique:client_emails,email',
+            'email' => 'required|string',
             'isMain' => ['required',new Enum(IsMain::class)],
         ];
     }

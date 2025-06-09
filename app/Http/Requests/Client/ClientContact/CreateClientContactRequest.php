@@ -25,7 +25,7 @@ class CreateClientContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => 'required|string|unique:client_phones,phone|max:255',
+            'phone' => 'required|string|max:255',
             'clientId' => 'required|integer|exists:clients,id',
             'isMain' =>['required'],
             'countryCode' => 'nullable|string|max:10',
