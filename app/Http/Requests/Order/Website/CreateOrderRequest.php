@@ -28,9 +28,9 @@ class CreateOrderRequest extends FormRequest
         return [
                 'name' => 'required|string|max:255',
                 'note' => 'nullable|string|max:500',
-                'phone'=>'required|string|max:15|unique:client_phones,phone',
+                'phone'=>'required|string|max:15',
                 'countryCode' => 'required|string|max:5',
-                'email' => 'required|email|max:255|unique:client_emails,email',
+                'email' => 'required|email|max:255',
                 'address' => 'required|string|max:255',
                 'streetNumber' => 'nullable|string|max:255',
                 'city' => 'required|string|max:100',
