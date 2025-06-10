@@ -59,8 +59,11 @@ class Product extends Model
     }
 
     public function getSimilarProduct() {
-        return Product::where('category_id', $this->category_id)
-                      ->orWhere('sub_category_id', $this->sub_category_id)
+        return Product::where('id', '!=', $this->id)
+                      ->where(function($query) {
+                          $query->where('category_id', $this->category_id)
+                                ->orWhere('sub_category_id', $this->category_id);
+                      })
                       ->get();
     }
 }
