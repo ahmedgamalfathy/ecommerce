@@ -46,18 +46,22 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
             "amount" => $order->price_after_discount * 100,
             "currency" => "USD",
             "client_id" => $order->client_id,
+            "orderId"=> $order->id,
             "host" => $request->getSchemeAndHttpHost(),
         ]);
 
         $response =$this->buildRequest('POST', '/v1/checkout/sessions', $data, 'form_params');
         if($response->getData(true)['success']) {
-            $order->status = OrderStatus::CONFIRM->value;
-            $order->save();
-
-            foreach ($order->items as $item) {
-                $item->product->decrement('quantity', $item->qty);
+        foreach ($order->items as $item) {
+            if ($item->product->quantity < $item->qty) {
+                $avilableQuantity[] = [
+                    'productId' => $item->product->id,
+                    'quantity' => $item->product->quantity,
+                    'name' => $item->product->name
+                ];
+                return  $avilableQuantity;
             }
-
+        }
             return ['success' => true, 'url' => $response->getData(true)['data']['url']];
         }
         return ['success' => false,'url'=>route('payment.failed')];
@@ -68,6 +72,13 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
         $session_id = $request->get('session_id');
         $response=$this->buildRequest('GET','/v1/checkout/sessions/'.$session_id);
          if($response->getData(true)['success']&& $response->getData(true)['data']['payment_status']==='paid') {
+
+            $order = Order::find($response->getData(true)['data']['metadata']['orderId']);
+            $order->status = OrderStatus::CONFIRM->value;
+            $order->save();
+            foreach ($order->items as $item) {
+                $item->product->decrement('quantity', $item->qty);
+            }
             DB::table('payment_callback')->insert([
                 //session_id ,name ,email, currency ,status ,country ,payment_status,amount_total
                     'session_id'=>$request->get('session_id'),
@@ -107,7 +118,8 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
             ],
             "mode" => "payment",
             "metadata" => [
-                "client_id" => $data['client_id']
+                "client_id" => $data['client_id'],
+                "orderId" => $data['orderId']
             ]
         ];
     }
