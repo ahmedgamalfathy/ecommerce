@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Utils\PaginateCollection;
 use App\Http\Controllers\Controller;
 use App\Services\Category\CategoryTwoService;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Resources\Client\website\AllProfileResource;
 use App\Http\Resources\Category\CategoryTwo\CategoryResource;
 use App\Http\Requests\Category\CategoryTwo\CreateCategoryRequest;
@@ -20,9 +21,16 @@ class CategoryTwoController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     private $categoryTwoService;
     public function __construct(CategoryTwoService $categoryTwoService){
         $this->categoryTwoService = $categoryTwoService;
+    }
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:api'),
+        ];
     }
     public function index(Request $request)
     {
@@ -42,7 +50,7 @@ class CategoryTwoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id ,Request $request)
     {
         $category= $this->categoryTwoService->editCategoryTwo($id);
         return ApiResponse::success(new CategoryResource($category));

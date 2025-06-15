@@ -5,8 +5,9 @@ use App\Models\Product\CategoryTwo;
 use App\Enums\Product\CategoryStatus;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Services\Upload\UploadService;
+use function PHPUnit\Framework\isNull;
 use Spatie\QueryBuilder\AllowedFilter;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Request;
 use App\Filters\Category\FilterCategory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -90,9 +91,22 @@ class CategoryTwoService {
     }
     public function deleteCategoryTwo(int $id){
         $category = Category::find($id);
-        Category::where('parent_id', $category->id)->delete();
-        $category->delete();
-        
+        //parentId null , parentId = 1
+        if(isNull($category->parent_id)){
+            $categoriesPath= Category::where('parent_id',$category->id)->get();
+            foreach ($categoriesPath as $categoryPath) {
+                if ($categoryPath->path) {
+                    Storage::disk('public')->delete($categoryPath->getRawOriginal('path'));
+                }
+                Category::where('parent_id', $category->id)->delete();
+            }
+            $category->delete();
+        }else{
+            if ($category->path) {
+                Storage::disk('public')->delete($category->getRawOriginal('path'));
+            }
+            $category->delete();
+        }
     }
 
 

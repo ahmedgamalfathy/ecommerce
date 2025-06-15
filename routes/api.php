@@ -62,6 +62,9 @@ Route::prefix('v1/admin')->group(function () {
     Route::apiSingleton('profile', UserProfileController::class);
     Route::put('profile/change-password', ChangePasswordController::class);
     Route::get('/stats',StatsController::class);
+    Route::prefix('selects')->group(function(){
+        Route::get('', [SelectController::class, 'getSelects']);
+      });
 
 });//admin
 Route::prefix('v1/website')->group(function(){
@@ -113,6 +116,4 @@ Route::prefix('v1/website')->group(function(){
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-Route::prefix('v1/selects')->group(function(){
-  Route::get('', [SelectController::class, 'getSelects']);
-});
+
