@@ -28,6 +28,7 @@ class CategoryTwoService {
         ])
         ->mainCategories()
         ->with('SubCategories')
+        ->orderByDesc('id')
         ->get();
         return $categories;
     }
