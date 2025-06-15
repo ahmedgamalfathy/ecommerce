@@ -20,7 +20,7 @@ class CategoryFactory extends Factory
             'name' => $this->faker->unique()->word(),
             'parent_id' => $this->faker->numberBetween(1, 4),
             'is_active' => $this->faker->boolean(),
-            'path' => 'ProductMedia/index.png'
+            'path' => 'ProductMedia/index.jpg'
         ];
     }
 }
