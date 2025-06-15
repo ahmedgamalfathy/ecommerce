@@ -109,7 +109,7 @@ Route::prefix('v1/website')->group(function(){
     Route::put('/orderUpdate/{id}',[AuthOrderItemController::class , 'update']);
     Route::delete('/orderDelete/{id}',[AuthOrderItemController::class , 'destory']);
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
-});//website
+});//website ...
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
