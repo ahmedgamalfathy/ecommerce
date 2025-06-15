@@ -26,8 +26,8 @@ return new class extends Migration
             $table->boolean('is_limited_quantity')->default(LimitedQuantity::UNLIMITED->value);
             $table->smallInteger('quantity')->default(0);
             $table->tinyInteger('status')->default(ProductStatus::INACTIVE->value);
-            $table->foreignIdFor(Category::class,'category_id')->nullable()->constrained();
-            $table->foreignIdFor(Category::class,'sub_category_id')->nullable()->constrained();
+            $table->foreignIdFor(Category::class,'category_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignIdFor(Category::class,'sub_category_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });

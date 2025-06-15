@@ -10,33 +10,34 @@ use App\Http\Controllers\Api\V1\Dashboard\Order\OrderController;
 use App\Http\Controllers\Api\V1\Dashboard\Stats\StatsController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientController;
 use App\Http\Controllers\Api\V1\Dashboard\Slider\SliderController;
+use App\Http\Controllers\Api\V1\Website\Order\AuthOrderController;
 use App\Http\Controllers\Api\V1\Website\Payment\PaymentController;
 use App\Http\Controllers\Api\V1\Website\Auth\AuthWebsiteController;
 use App\Http\Controllers\Api\V1\Dashboard\Product\ProductController;
 use App\Http\Controllers\Api\V1\Website\Order\ClientOrderController;
+// use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryController;
 use App\Http\Controllers\Api\V1\Dashboard\User\UserProfileController;
-use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryController;
 use App\Http\Controllers\Api\V1\Website\Auth\ForgotPasswordController;
+use App\Http\Controllers\Api\V1\Website\Order\AuthOrderItemController;
 use App\Http\Controllers\Api\V1\Website\Order\CheckQuantityController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientEmailController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientPhoneController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientWebsiteController;
+// use App\Http\Controllers\Api\V1\Dashboard\Category\SubCategoryController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientAdressController;
 use App\Http\Controllers\Api\V1\Dashboard\User\ChangePasswordController;
-use App\Http\Controllers\Api\V1\Dashboard\Category\SubCategoryController;
+use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryTwoController;
 use App\Http\Controllers\Api\V1\Website\Product\ProductWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientEmailWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientPhoneWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ClientProfileController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientAdressWebsiteController;
+use App\Http\Controllers\Api\V1\Website\Product\BestSellingProductController;
 use App\Http\Controllers\Api\V1\Dashboard\ProductMedia\ProductMediaController;
 use App\Http\Controllers\Api\V1\Website\Order\OrderController as OrderWebsite;
 use App\Http\Controllers\Api\V1\Website\Slider\SliderController as SliderWebsite;
 use App\Http\Controllers\Api\V1\Website\Category\CategoryController as CategoryWebsite;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ChangePasswordController as ChangePasswordWebsite ;
-use App\Http\Controllers\Api\V1\Website\Order\AuthOrderController;
-use App\Http\Controllers\Api\V1\Website\Order\AuthOrderItemController;
-use App\Http\Controllers\Api\V1\Website\Product\BestSellingProductController;
 
 Route::prefix('v1/admin')->group(function () {
 
@@ -45,8 +46,9 @@ Route::prefix('v1/admin')->group(function () {
         Route::post('/logout','logout');
     });
     Route::apiResources([
-        "categories" => CategoryController::class,
-        "sub-categories" =>SubCategoryController::class,
+        // "categories" => CategoryController::class,
+        // "sub-categories" =>SubCategoryController::class,
+        "category-two"=>CategoryTwoController::class,
         "product-media" => ProductMediaController::class,
         "products" => ProductController::class,
         "clients" => ClientController::class,
@@ -73,13 +75,23 @@ Route::prefix('v1/website')->group(function(){
         Route::post('resendCode','resendCode');
         Route::post('newPassword','newPassword');
     });
-    Route::apiSingleton('profile', ClientProfileController::class);
+    Route::apiSingleton('profile', ClientProfileController::class)->names([
+        'show' => 'profileWeb.show',
+        'update'=>'profileWeb.update'
+    ]);
     Route::post('logout',[AuthWebsiteController::class ,'logout'])->middleware('auth:client');
     Route::apiResource('client-orders',ClientOrderController::class)->only(['index','show']);
-    Route::apiResource('sliders', SliderWebsite::class)->only(['index']);
+    Route::apiResource('sliders', SliderWebsite::class)->only(['index'])->names([
+        'index' => 'slidersWeb.index',
+    ]);
     Route::apiResource('categories',CategoryWebsite::class)->only(['index']);
-    Route::apiResource('products',ProductWebsiteController::class)->only(['index','show']);
-    Route::apiResource('orders',OrderWebsite::class);
+    Route::apiResource('products',ProductWebsiteController::class)->only(['index','show'])->names([
+        'index' => 'productsWeb.index',
+        'show'=>'productsWeb.show'
+    ]);
+    Route::apiResource('orders',OrderWebsite::class)->only(['store'])->names([
+        'store' => 'ordersWeb.store',
+    ]);
     Route::apiResource("clients-web" , ClientWebsiteController::class)->only(['index']);
     Route::apiResource("client-web-phones" , ClientPhoneWebsiteController::class);
     Route::apiResource("client-web-addresses",ClientAdressWebsiteController::class);
@@ -99,8 +111,8 @@ Route::prefix('v1/website')->group(function(){
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website
 Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
-Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('paymentd.success');
+Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('paymentd.failed');
 Route::prefix('v1/selects')->group(function(){
   Route::get('', [SelectController::class, 'getSelects']);
 });
