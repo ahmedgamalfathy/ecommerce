@@ -25,7 +25,7 @@ class AllCategoryResource extends JsonResource
             'productCount' => DB::table('products')->where('category_id', $this->id)->
             orWhere('sub_category_id',$this->id)->count(),
             'subCategoriesCount'=>$this->subCategories()->count(),
-            'subCategories' => SubCategoryResource::collection($this->subCategories),
+            'subCategories' => SubCategoryResource::collection($this->subCategories->take(10)),
         ];
     }
 }
