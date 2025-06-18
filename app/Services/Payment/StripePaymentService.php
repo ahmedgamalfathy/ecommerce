@@ -44,17 +44,6 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
         if($order->status != OrderStatus::DRAFT){
             return ApiResponse::error(__(' Order must be in draft status to process payment'),[],HttpStatusCode::UNPROCESSABLE_ENTITY);
         }
-
-        $data = $this->formatData([
-            "amount" => $order->price_after_discount * 100,
-            "currency" => "USD",
-            "client_id" => $order->client_id,
-            "orderId"=> $order->id,
-            "host" => $request->getSchemeAndHttpHost(),
-        ]);
-
-        $response =$this->buildRequest('POST', '/v1/checkout/sessions', $data, 'form_params');
-        if($response->getData(true)['success']) {
         foreach ($order->items as $item) {
             if ($item->product->quantity < $item->qty) {
                 $avilableQuantity[] = [
@@ -65,6 +54,16 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
                 return  $avilableQuantity;
             }
         }
+        $data = $this->formatData([
+            "amount" => $order->price_after_discount * 100,
+            "currency" => "USD",
+            "client_id" => $order->client_id,
+            "orderId"=> $order->id,
+            "host" => $request->getSchemeAndHttpHost(),
+        ]);
+
+        $response =$this->buildRequest('POST', '/v1/checkout/sessions', $data, 'form_params');
+        if($response->getData(true)['success']) {
             return ['success' => true, 'url' => $response->getData(true)['data']['url']];
         }
         return ['success' => false,'url'=>route('payment.failed')];
@@ -105,7 +104,7 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
     public function formatData(array $data): array
     {
         return [
-            "success_url" =>$data['host'].'/api/payment/callback?session_id={CHECKOUT_SESSION_ID}',
+            "success_url" =>$data['host'].'/api/payment/callback/stripe?session_id={CHECKOUT_SESSION_ID}',
             "line_items" => [
                 [
                     "price_data"=>[

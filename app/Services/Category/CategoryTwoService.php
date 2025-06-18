@@ -8,6 +8,7 @@ use App\Services\Upload\UploadService;
 use function PHPUnit\Framework\isNull;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Filters\Category\FilterCategory;
 use App\Filters\Category\FilterCategoryTwo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -26,7 +27,7 @@ class CategoryTwoService {
         ->allowedFilters([
             AllowedFilter::custom('search', new FilterCategory()),
             AllowedFilter::exact('isActive', 'is_active'),
-            AllowedFilter::exact('parentId', 'parent_id')
+            // AllowedFilter::exact('parentId', 'parent_id')
         ])
         ->mainCategories()
         ->with('SubCategories')

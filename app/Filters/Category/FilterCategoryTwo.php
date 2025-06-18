@@ -11,20 +11,15 @@ class FilterCategoryTwo implements Filter
 {
     public function __invoke(Builder $query, $value, string $property ): Builder
     {
-        $parentId = request()->get('parentId');
-        return $query->where(function ($q) use ($value, $parentId) {
-            $q->where('name', 'like', '%' . $value . '%');
-
-            if (!is_null($parentId) && $parentId !== '') {
-                $q->where('parent_id', $parentId);
-            }else{
-                $q->where('parent_id', null);
+        $parentId = request()->input('filter.parentId');
+        return $query->where(function ($query) use ($value, $parentId) {
+            $query->where('name', 'like', '%' . $value . '%');
+            if ($parentId !== null && $parentId !== '') {
+                $query->where('parent_id', $parentId);
+            } else {
+                $query->whereNull('parent_id');
             }
         });
-        // ->orWhereHas('subCategories', function ($subQuery) use ($value) {
-        //     $subQuery->where('name', 'like', '%' . $value . '%');
-        // });
-        
     }
 }
 ?>

@@ -10,13 +10,14 @@ use App\Utils\PaginateCollection;
 use App\Http\Controllers\Controller;
 use App\Services\Category\CategoryTwoService;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Http\Resources\Client\website\AllProfileResource;
 use App\Http\Resources\Category\CategoryTwo\CategoryResource;
 use App\Http\Requests\Category\CategoryTwo\CreateCategoryRequest;
 use App\Http\Requests\Category\CategoryTwo\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryTwo\AllCategoryCollection;
 
-class CategoryTwoController extends Controller
+class CategoryTwoController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.

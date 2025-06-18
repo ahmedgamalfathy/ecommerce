@@ -22,6 +22,7 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'isActive' => $this->is_active,
             'path' => $this->path,
+            'parentId'=>$this->parent_id??"",
             'productsCount' => DB::table('products')->where('category_id', $this->id)->
             orWhere('sub_category_id',$this->id)->count(),
             'subCategoriesCount'=>$this->subCategories()->count(),
