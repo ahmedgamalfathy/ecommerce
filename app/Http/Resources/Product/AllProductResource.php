@@ -4,6 +4,7 @@ namespace App\Http\Resources\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ProductMedia\ProductMediaResouce;
 
 class AllProductResource extends JsonResource
 {
@@ -16,9 +17,12 @@ class AllProductResource extends JsonResource
     {
         return [
             'productId' => $this->id,
+            'path'=>ProductMediaResouce::collection($this->productMedia->take(1)),
             'name' => $this->name,
             'price' => $this->price,
             'status' => $this->status,
+            "categoryId" => $this->category_id??"",
+            "subCategoryId"=> $this->sub_category_id??"",
             'description' => $this->description,
         ];
     }
