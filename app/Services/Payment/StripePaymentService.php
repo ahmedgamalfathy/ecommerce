@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Enums\ResponseCode\HttpStatusCode;
 use App\Interfaces\PaymentGatewayInterface;
 use App\Services\Payment\BasePaymentService;
+use App\Enums\Product\LimitedQuantity;
 
 class StripePaymentService extends BasePaymentService implements PaymentGatewayInterface
 {
@@ -45,7 +46,7 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
             return ApiResponse::error(__(' Order must be in draft status to process payment'),[],HttpStatusCode::UNPROCESSABLE_ENTITY);
         }
         foreach ($order->items as $item) {
-            if ($item->product->quantity < $item->qty) {
+            if ($item->is_limited_quantity == LimitedQuantity::LIMITED && $item->product->quantity < $item->qty) {
                 $avilableQuantity[] = [
                     'productId' => $item->product->id,
                     'quantity' => $item->product->quantity,

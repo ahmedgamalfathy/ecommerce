@@ -75,7 +75,8 @@ class OrderController extends Controller
                          'orderId' => $order->id,
                          ...$itemData
                      ]);
-                 if($item->product->is_limited_quantity == LimitedQuantity::LIMITED && $item->product->quantity < $item->qty){
+                     //&& $item->product->quantity < $item->qty
+                 if($item->product->is_limited_quantity == LimitedQuantity::LIMITED ){
                      if ($item->product->quantity < $item->qty) {
                          $avilableQuantity[] = [
                              'productId' => $item->product->id,

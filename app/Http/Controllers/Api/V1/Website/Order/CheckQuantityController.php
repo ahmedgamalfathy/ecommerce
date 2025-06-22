@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Website\Order;
 
+use App\Enums\Product\LimitedQuantity;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
@@ -16,16 +17,25 @@ class CheckQuantityController extends Controller
       if(!$product){
         return  ApiResponse::error(__('crud.not_found'),[],HttpStatusCode::NOT_FOUND);
       }
-      if($product->quantity >= $data['qty']){
-        return  ApiResponse::success([
-            "availability"=>true,
-            "qty"=>$product->quantity
+
+      // Check if product is available based on quantity type
+      if($product->is_limited_quantity == LimitedQuantity::UNLIMITED) {
+        return ApiResponse::success([
+            "availability" => true,
+            "qty" => $product->quantity
         ]);
-      }else{
-        return  ApiResponse::success([
-            "availability"=>false,
-            "qty"=>$product->quantity
-        ]);
+      } else if($product->is_limited_quantity == LimitedQuantity::LIMITED) {
+        if($product->quantity >= $data['qty']) {
+          return ApiResponse::success([
+              "availability" => true,
+              "qty" => $product->quantity
+          ]);
+        } else {
+          return ApiResponse::success([
+              "availability" => false,
+              "qty" => $product->quantity
+          ]);
+        }
       }
     }
 }

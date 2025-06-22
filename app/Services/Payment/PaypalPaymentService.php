@@ -7,11 +7,12 @@ use App\Models\Order\Order;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Enums\Order\OrderStatus;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Enums\Product\LimitedQuantity;
 use Illuminate\Support\Facades\Storage;
 use App\Enums\ResponseCode\HttpStatusCode;
 use App\Interfaces\PaymentGatewayInterface;
-use Illuminate\Http\JsonResponse;
 
 class PaypalPaymentService extends BasePaymentService implements PaymentGatewayInterface
 {
@@ -44,7 +45,7 @@ class PaypalPaymentService extends BasePaymentService implements PaymentGatewayI
             return ApiResponse::error(__(' Order must be in draft status to process payment'),[],HttpStatusCode::UNPROCESSABLE_ENTITY);
         }
         foreach ($order->items as $item) {
-            if ($item->product->quantity < $item->qty) {
+            if ($item->is_limited_quantity == LimitedQuantity::LIMITED && $item->product->quantity < $item->qty ) {
                 return [
                     'success' => false,
                     'insufficient' => [
