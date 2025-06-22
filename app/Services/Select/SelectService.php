@@ -60,6 +60,7 @@ class SelectService
             'clientAddress'=>['getClientAddress',ClientSelectService::class],
             'categories'=>['getCategories',CategorySelectService::class],
             'subCategories'=>['getSubCategories',CategorySelectService::class],
+            'allsubcategory'=>['getallsubcategory',CategorySelectService::class],
             'roles' => ['getAllRoles', RoleSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
             'parameters' => ['getAllParameters', ParameterSelectService::class],

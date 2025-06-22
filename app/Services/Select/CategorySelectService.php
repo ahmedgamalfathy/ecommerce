@@ -15,4 +15,7 @@ class CategorySelectService
     {
         return Category::where('parent_id',$parentId)->get(['id as value','name as label']);
     }
+    public function getallsubcategory()  {
+        return Category::whereNotNull('parent_id')->get(['id as value','name as label']);
+    }
 }
