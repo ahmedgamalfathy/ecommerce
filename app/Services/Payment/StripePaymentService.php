@@ -25,8 +25,8 @@ class StripePaymentService extends BasePaymentService implements PaymentGatewayI
     protected mixed $api_key;
     public function __construct()
     {
-        $this->base_url =env("STRIPE_BASE_URL");
-        $this->api_key = env("STRIPE_SECRET_KEY");
+        $this->base_url = config('payment.stripe.base_url');
+        $this->api_key =  config('payment.stripe.secret');
         $this->header = [
             'Accept' => 'application/json',
             'Content-Type' =>'application/x-www-form-urlencoded',

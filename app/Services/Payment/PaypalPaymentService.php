@@ -24,9 +24,9 @@ class PaypalPaymentService extends BasePaymentService implements PaymentGatewayI
     public function __construct()
     {
         //test base_url
-        $this->base_url = env("PAYPAL_BASE_URL");
-        $this->client_id = env("PAYBAL_CLIENT_ID");
-        $this->client_secret = env("PAYPAL_CLIENT_SECRET");
+        $this->base_url =  config('payment.paypal.base_url');
+        $this->client_id =  config('payment.paypal.client_id');
+        $this->client_secret =  config('payment.paypal.client_secret');
         $this->header=[
             "Accept" => "application/json",
             'Content-Type'=>"application/json",
