@@ -43,7 +43,7 @@ class AuthService
                 'permissions' => $this->userPermissionService->getUserPermissions($user),
                 'tokenDetails' => [
                     'token' => $token,
-                    'expiresIn' => 60 * 10
+                    'expiresIn' => 1440
                 ],
             ]);
 
