@@ -61,6 +61,19 @@ class ProductMediaService{
         Storage::disk('public')->delete($productMedia->getRawOriginal('path'));
         $productMedia->delete();
     }
-
+    public function changeStatusProductMedia($id ,$statusMain){
+         $productMedia = ProductMedia::findOrFail($id);
+         if($productMedia && $statusMain == 1 ){
+            ProductMedia::where('product_id', $productMedia->product_id)->update([
+                'is_main'=>0,
+            ]);
+            $productMedia->is_main = $statusMain;
+            $productMedia->save();
+         }elseif ($productMedia && $statusMain == 0) {
+            $productMedia->is_main = $statusMain;
+            $productMedia->save();
+         }
+         return $productMedia;
+    }
 }
 

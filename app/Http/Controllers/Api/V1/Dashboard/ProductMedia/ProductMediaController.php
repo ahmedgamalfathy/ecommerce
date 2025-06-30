@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1\Dashboard\ProductMedia;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Utils\PaginateCollection;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Product\ProductMedia;
 use App\Services\Upload\UploadService;
 use App\Enums\ResponseCode\HttpStatusCode;
 use Illuminate\Routing\Controllers\Middleware;
@@ -104,4 +106,16 @@ class ProductMediaController extends Controller
         }
 
     }
+    public function changeStatusProductMedia($id ,Request $request ){
+    try {
+        DB::beginTransaction();
+        $this->productMediaService->changeStatusProductMedia($id ,$request->input('statusMain'));
+        DB::commit();
+        return ApiResponse::success([],__('crud.updated'));
+    } catch (\Throwable $th) {
+        DB::rollBack();
+        return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
+    }
+     }
+
 }
