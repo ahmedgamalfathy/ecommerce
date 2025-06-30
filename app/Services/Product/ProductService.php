@@ -31,7 +31,6 @@ class ProductService
     }
     public function createProduct(array $data){
         // dd($data['specifications']);
-        dd('sdsd');
         $product= Product::create([
             'name'=>$data['name'],
             'price'=>$data['price'],
@@ -44,7 +43,7 @@ class ProductService
             'specifications'=>$data['specifications']??null,
             'is_limited_quantity'=>LimitedQuantity::from($data['isLimitedQuantity'])->value
         ]);
-
+        dd('sdsd');
       if(!isEmpty($data['productMedia'])){
             foreach($data['productMedia'] as $media){
                 $media['productId']=$product->id;
