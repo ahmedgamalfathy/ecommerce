@@ -17,7 +17,7 @@ class AllProductResource extends JsonResource
     {
         return [
             'productId' => $this->id,
-            'path'=>ProductMediaResouce::collection($this->productMedia->take(1)),
+            'path'=>$this->productMedia->isNotEmpty() ?ProductMediaResouce::collection($this->productMedia->take(1)): url("storage/".'ProductMedia/default-product.jpg'),
             'name' => $this->name,
             'price' => $this->price,
             'status' => $this->status,

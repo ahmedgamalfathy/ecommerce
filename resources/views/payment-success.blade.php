@@ -66,7 +66,7 @@
                 <p class="lead p-0 m-0">Your payment has been processed successfully.</p>
             </div>
             <p class="text-muted animate__animated animate__fadeInUp" style="animation-delay: 0.4s">Thank you for your purchase.</p>
-            <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 mt-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+            <a href="https://elmotech-ecommerce.vercel.app/en" class="btn btn-primary btn-lg rounded-pill px-5 py-3 mt-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
                 Return to Home
             </a>
         </div>

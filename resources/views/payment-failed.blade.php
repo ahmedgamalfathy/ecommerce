@@ -115,7 +115,7 @@
                 <button class="btn retry-button btn-lg rounded-pill px-5 py-3 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
                     Try Again
                 </button>
-                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary btn-lg rounded-pill px-5 py-3 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+                <a href="https://elmotech-ecommerce.vercel.app/en" class="btn btn-outline-secondary btn-lg rounded-pill px-5 py-3 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
                     Return Home
                 </a>
             </div>

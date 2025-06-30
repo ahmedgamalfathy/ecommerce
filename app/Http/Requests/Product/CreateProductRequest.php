@@ -29,13 +29,13 @@ class CreateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "productMedia" => ["required", "array"],
+            "productMedia" => ["nullable", "array"],
             "name" => ["required", "string", "max:255","unique:products,name"],
             "price" => ["required"],
             "status" => ["required", new Enum(ProductStatus::class)],
             "description" => ["nullable", "string"],
-            "categoryId" => ["required_without:subCategoryId", "nullable"],
-            "subCategoryId" => ["required_without:categoryId", "nullable"],
+            "categoryId" => [ "nullable","numeric"],
+            "subCategoryId" => [ "nullable","numeric"],
             "specifications"=>["nullable","array"],
             'cost' => ['required'],
             "isLimitedQuantity" => ["required", new Enum(LimitedQuantity::class)],
