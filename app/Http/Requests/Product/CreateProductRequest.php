@@ -37,7 +37,7 @@ class CreateProductRequest extends FormRequest
             "categoryId" => [ "nullable","numeric"],
             "subCategoryId" => [ "nullable","numeric"],
             "specifications"=>["nullable","array"],
-            'cost' => ['required'],
+            'cost' => ['nullable'],
             "isLimitedQuantity" => ["required", new Enum(LimitedQuantity::class)],
             'quantity' => ['required_if:isLimitedQuantity,' . LimitedQuantity::LIMITED->value],
         ];

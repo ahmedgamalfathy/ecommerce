@@ -43,7 +43,7 @@ class ProductService
             'specifications'=>$data['specifications']??null,
             'is_limited_quantity'=>LimitedQuantity::from($data['isLimitedQuantity'])->value
         ]);
-        
+        dd('sdsd');
       if(!isEmpty($data['productMedia'])){
             foreach($data['productMedia'] as $media){
                 $media['productId']=$product->id;
