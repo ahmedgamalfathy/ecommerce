@@ -43,14 +43,13 @@ class ProductService
             'specifications'=>$data['specifications']??null,
             'is_limited_quantity'=>LimitedQuantity::from($data['isLimitedQuantity'])->value
         ]);
-        
-      if(!isEmpty($data['productMedia'])){
+
+        if (isset($data['productMedia']) && is_array($data['productMedia']) && count($data['productMedia']) > 0) {
             foreach($data['productMedia'] as $media){
                 $media['productId']=$product->id;
                 $this->productMediaService->createProductMedia($media);
             }
       }
-
         return $product;
     }
     public function editProduct(int $id){

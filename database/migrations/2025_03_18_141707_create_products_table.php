@@ -19,7 +19,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->json('specifications')->nullable();
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('cost', 10, 2)->default(0);
