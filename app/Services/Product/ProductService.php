@@ -41,7 +41,8 @@ class ProductService
             'quantity'=>$data['quantity']??0,
             'cost'=>$data['cost']??0,
             'specifications'=>$data['specifications']??null,
-            'is_limited_quantity'=>LimitedQuantity::from($data['isLimitedQuantity'])->value
+            'is_limited_quantity'=> $data['isLimitedQuantity']
+            // LimitedQuantity::from($data['isLimitedQuantity'])->value
         ]);
         dd('sdsd');
       if(!isEmpty($data['productMedia'])){
