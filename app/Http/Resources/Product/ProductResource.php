@@ -27,8 +27,8 @@ class ProductResource extends JsonResource
             'description' => $this->description??"",
             "categoryId" => $this->category_id??"",
             "subCategoryId"=> $this->sub_category_id??"",
-            "specifications"=>$this->specifications??"",                                                                   
-           'productMedia' =>$this->productMedia->isNotEmpty()? ProductMediaResouce::collection($this->productMedia) :url("storage".'ProductMedia/default-product.jpg') ,
+            "specifications"=>$this->specifications??"",
+           'productMedia' =>$this->productMedia->isNotEmpty()? ProductMediaResouce::collection($this->productMedia) :url("storage/".'ProductMedia/default-product.jpg') ,
 
         ];
     }
