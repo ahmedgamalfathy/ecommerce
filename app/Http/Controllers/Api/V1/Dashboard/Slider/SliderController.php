@@ -90,4 +90,14 @@ class SliderController extends Controller
         return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+    public function changeStatus(int $id,Request $request)
+    {
+        try{
+        $this->sliderService->changeSliderStatus($id,$request->isActive);
+        return ApiResponse::success([], __('crud.updated'));
+        }catch (\Exception $e) {
+        DB::rollBack();
+        return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }

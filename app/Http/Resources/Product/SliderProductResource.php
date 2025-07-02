@@ -24,7 +24,7 @@ class SliderProductResource extends JsonResource
             'description' => $this->description??"",
             "categoryId" => $this->category_id??"",
             "subCategoryId"=> $this->sub_category_id??"",
-            'productMedia' => $this->firstProductMedia ? new ProductMediaResouce($this->firstProductMedia) : null,
+            'productMedia' => $this->firstProductMedia ? new ProductMediaResouce($this->firstProductMedia) : url("storage/".'ProductMedia/default-product.jpg'),
         ];
     }
 }

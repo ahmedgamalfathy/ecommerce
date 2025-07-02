@@ -46,6 +46,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::post('/logout','logout');
     });
     Route::post('/product-media/changeStatusMedia/{id}',[ProductMediaController::class ,'changeStatusProductMedia']);
+    Route::post('/sliders/changeStatus/{id}',[SliderController::class ,'changeStatus']);
     Route::apiResources([
         // "categories" => CategoryController::class,
         // "sub-categories" =>SubCategoryController::class,

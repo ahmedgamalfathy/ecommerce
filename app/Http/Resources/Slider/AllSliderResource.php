@@ -17,8 +17,10 @@ class AllSliderResource extends JsonResource
         return [
             'sliderId' => $this->id,
             'name' => $this->name,
-            'startDate' => $this->start_date,
-            'endDate' => $this->end_date,
+            'productsCount' => $this->products()->where('status', 1)->count(),
+            // 'startDate' => $this->start_date,
+            // 'endDate' => $this->end_date,
+            'createdAt' => $this->created_at,
             'isActive' => $this->is_active,
         ];
     }

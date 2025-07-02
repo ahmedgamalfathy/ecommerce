@@ -19,9 +19,11 @@ class SliderResource extends JsonResource
         return [
             'sliderId' => $this->id,
             'name' => $this->name,
-            'startDate' => $this->start_date,
-            'endDate' => $this->end_date,
+            'productsCount' => $this->products()->where('status', 1)->count(),
+            // 'startDate' => $this->start_date,
+            // 'endDate' => $this->end_date,
             'isActive' => $this->is_active,
+            'createdAt' => $this->created_at,
             'sliderItems'=> SliderProductResource::collection($this->products()->where('status', 1)->get())
         ];
     }

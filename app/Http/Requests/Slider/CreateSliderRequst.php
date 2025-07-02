@@ -31,8 +31,8 @@ class CreateSliderRequst extends FormRequest
         return [
             "name"=>['required','unique:sliders,name'],
             "isActive"=>['required',new Enum(IsActive::class)],
-            "startDate"=>['nullable','date'],
-            'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],
+            // "startDate"=>['nullable','date'],
+            // 'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],
             "sliderItems"=>['required','array'],
             "silderItems.*.productId"=>['required','exists:products,id']
         ];

@@ -34,8 +34,8 @@ public function createSlider(array $data)
     $slider =Slider::create([
     'name'=>$data['name'],
     'is_active'=>IsActive::from($data['isActive'])->value,
-    'start_date'=>$data['startDate'],
-    'end_date'=>$data['endDate']
+    'start_date'=>$data['startDate'] ?? null,
+    'end_date'=>$data['endDate'] ?? null
     ]);
     $slider->products()->attach($data['sliderItems']);
     if ($data['isActive'] == 1) {
@@ -49,10 +49,13 @@ public function createSlider(array $data)
 public function updateSlider(int $id, array $data)
 {
    $slider= Slider::find($id);
-   $slider->name =$data['name'];
+   if(!$slider){
+    throw new ModelNotFoundException();
+   }
+   $slider->name = $data['name'];
    $slider->is_active =IsActive::from($data['isActive'])->value;
-   $slider->start_date =$data['startDate'];
-   $slider->end_date =$data['endDate'];
+   $slider->start_date =$data['startDate'] ?? null;
+   $slider->end_date =$data['endDate'] ?? null;
    $slider->save();
    $slider->products()->sync($data['sliderItems']);
    if ($data['isActive'] == 1) {
@@ -68,6 +71,21 @@ public function deleteSlider(int $id)
     throw new ModelNotFoundException();
  }
  $slider->delete();
+
+}
+public function changeSliderStatus(int $id,int $isActive)
+{
+    $slider = Slider::find($id);
+    if(!$slider){
+        throw new ModelNotFoundException();
+    }
+    $slider->is_active =IsActive::from($isActive)->value;
+    $slider->save();
+    if ($isActive == 1) {
+        Slider::where('id', '!=', $slider->id)
+        ->where('is_active', 1)
+        ->update(['is_active' => 0]);
+    }
 
 }
 

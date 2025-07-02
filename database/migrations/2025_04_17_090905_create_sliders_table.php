@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->boolean('is_active')->default(IsActive::INACTIVE->value);
-            $table->timestamp('start_date');
-            $table->timestamp('end_date');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }

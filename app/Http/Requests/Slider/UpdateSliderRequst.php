@@ -31,8 +31,8 @@ class UpdateSliderRequst extends FormRequest
         return [
             "name" => ['required', Rule::unique('sliders')->ignore($this->route('slider'))],
             "isActive"=>['required',new Enum(IsActive::class)],
-            "startDate"=>['nullable','date'],
-            'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],
+            // "startDate"=>['nullable','date'],
+            // 'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],
             "sliderItems"=>['required','array'],
             "silderItems.*.productId"=>['required','exists:products,id'],
             "silderItems.*.actionStatus"=>['required',Rule::in(['create','update'])]
