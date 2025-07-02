@@ -37,7 +37,7 @@ class UpdateProductRequest extends FormRequest
             "status" => ["required", new Enum(ProductStatus::class)],
             "categoryId" => [ "nullable","numeric",'exists:categories,id'],
             "subCategoryId" => [ "nullable","numeric",'exists:categories,id'],
-            'cost' => ['required'],
+            'cost' => ['nullable'],
             "specifications"=>["nullable","array"],
             "isLimitedQuantity" => ["required", new Enum(LimitedQuantity::class)],
             'quantity' => ['required_if:isLimitedQuantity,' . LimitedQuantity::LIMITED->value],
