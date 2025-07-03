@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Slider;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,7 @@ class AllSliderResource extends JsonResource
             'productsCount' => $this->products()->where('status', 1)->count(),
             // 'startDate' => $this->start_date,
             // 'endDate' => $this->end_date,
-            'createdAt' => $this->created_at,
+            'createdAt' => Carbon::parse($this->created_at)->format('Y-m-d'),
             'isActive' => $this->is_active,
         ];
     }
