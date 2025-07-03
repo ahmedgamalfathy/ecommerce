@@ -3,6 +3,8 @@
 
 namespace App\Services\Select;
 
+
+use App\Services\Select\ProductSelectService;
 use App\Services\Select\CategorySelectService;
 use App\Services\Select\Parameter\ParameterSelectService;
 
@@ -64,6 +66,7 @@ class SelectService
             'roles' => ['getAllRoles', RoleSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
             'parameters' => ['getAllParameters', ParameterSelectService::class],
+            'allProductActive' => ['getAllProducts', ProductSelectService::class],
         ];
 
         $paramValue = null; // Initialize paramValue

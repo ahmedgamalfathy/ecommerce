@@ -2,29 +2,37 @@
 
 namespace App\Http\Controllers\Api\Private\Parameter;
 
+use Illuminate\Http\Request;
+use App\Utils\PaginateCollection;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Services\Parameter\ParameterService;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Http\Resources\Parameter\ParameterValueResource;
 use App\Http\Requests\Paramter\CreateParameterValueRequest;
 use App\Http\Requests\Paramter\UpdateParameterValueRequest;
 use App\Http\Resources\Parameter\AllParameterValueCollection;
-use App\Http\Resources\Parameter\ParameterValueResource;
-use App\Services\Parameter\ParameterService;
-use App\Utils\PaginateCollection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class ParameterValueController extends Controller
+class ParameterValueController extends Controller implements HasMiddleware
 {
     private $parameterService;
-    public function __construct(ParameterService $parameterService)
+    public function __construct(  ParameterService $parameterService)
     {
-        $this->middleware('auth:api');
-        $this->middleware('permission:all_parameters', ['only' => ['index']]);
-        $this->middleware('permission:create_parameter', ['only' => ['create']]);
-        $this->middleware('permission:edit_parameter', ['only' => ['edit']]);
-        $this->middleware('permission:update_parameter', ['only' => ['update']]);
-        $this->middleware('permission:delete_parameter', ['only' => ['delete']]);
-
         $this->parameterService = $parameterService;
+    }
+    public static function middleware()
+    {
+        return [
+            // new Middleware('auth:api'),
+            new Middleware('permission:all_parameters', only:['index']),
+            new Middleware('permission:create_parameter', only:['create']),
+            new Middleware('permission:edit_parameter', only:['edit']),
+            new Middleware('permission:update_parameter', only:['update']),
+            new Middleware('permission:delete_parameter', only:['delete']),
+        ];
+
+
     }
     /**
      * Display a listing of the resource.
