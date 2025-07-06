@@ -1,10 +1,11 @@
 <?php
 namespace App\Services\Client;
+use App\Enums\IsMain;
 use App\Models\Client\Client;
 use App\Filters\Client\FilterClient;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ClientService
 {
@@ -43,16 +44,18 @@ class ClientService
             $this->clientPhoneService->createClientPhone(['clientId'=>$client->id, ...$phone]);
         }
     }
-    if (isset($data['emails'])) {
-        foreach ($data['emails'] as $email) {
-            $this->clientEmailService->createClientEmail(['clientId'=>$client->id, ...$email]);
-        }
-    }
+
     if (isset($data['addresses'])) {
         foreach ($data['addresses'] as $address) {
             $this->clientAddressService->createClientAddress(['clientId'=> $client->id, ...$address]);
         }
     }
+    if (isset($data['email'])) {
+        $this->clientEmailService->createClientEmail([
+        'clientId'=>$client->id,
+        'email'=>$data['email'],
+        'isMain'=>IsMain::PRIMARY->value ]);
+     }
       return $client;
     }
     public function updateClient(int $id, array $data )
