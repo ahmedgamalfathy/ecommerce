@@ -14,6 +14,7 @@ use App\Enums\ResponseCode\HttpStatusCode;
 use App\Http\Requests\Client\CreateClientRequest;
 use App\Http\Resources\Client\AllClientCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Routing\Controllers\Middleware;
 
 class ClientController extends Controller implements HasMiddleware
@@ -70,7 +71,9 @@ class ClientController extends Controller implements HasMiddleware
             $this->clientService->updateClient($id,$updateClientRequest->validated());
             DB::commit();
             return ApiResponse::success([],__('crud.updated'));
-        } catch (\Throwable $th) {
+        }catch( ModelNotFoundException $e ){
+            return ApiResponse::error(__('crud.not_found'),[],HttpStatusCode::NOT_FOUND);
+        }catch (\Throwable $th) {
             return ApiResponse::error(__('crud.server_error'),$th->getMessage(),HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }

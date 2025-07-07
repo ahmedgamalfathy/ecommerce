@@ -19,6 +19,7 @@ class AllUserResource extends JsonResource
         return [
             'userId' => $this->id,
             'name' => $this->name,
+            "email"=> $this->email,
             'username' => $this->username??"",
             'isActive' => $this->is_active,
             'avatar' => $this->avatar,

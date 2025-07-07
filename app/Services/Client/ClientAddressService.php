@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Request;
         }
         public function createClientAddress(array $data)
         {
+            // dd($data);
             return ClientAdrress::create([
                 'client_id' => $data['clientId'],
                 'address' => $data['address'],

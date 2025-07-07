@@ -32,6 +32,9 @@ class ClientEmailService {
     public function updateClientEmail(int $id,array $data)
     {
         $ClientEmail=ClientEmail::find($id);
+        if(!$ClientEmail){
+          throw new ModelNotFoundException() ;
+        }
         $ClientEmail->update([
             'client_id' => $data['clientId'],
             'email' => $data['email'],
