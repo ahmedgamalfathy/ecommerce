@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Website\Product;
 
+use App\Enums\IsActive;
 use App\Filters\Product\FilterProductCategory;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use App\Enums\ResponseCode\HttpStatusCode;
 use App\Http\Resources\Product\Website\ProductResource;
 use App\Http\Resources\Product\Website\AllProductResource;
 use App\Http\Resources\Product\Website\AllProductCollection;
+use App\Models\Product\Category;
 
 class ProductWebsiteController  extends Controller
 {
@@ -27,6 +29,8 @@ class ProductWebsiteController  extends Controller
     }
     public function index(Request $request)
     {
+        $categoryActive =Category::where('is_active',IsActive::ACTIVE->value)->pluck('id');
+
          $products= QueryBuilder::for(Product::class)
          ->allowedFilters(['status',
             AllowedFilter::custom('categoryId', new FilterProductCategory),
@@ -41,7 +45,10 @@ class ProductWebsiteController  extends Controller
             }
             return $query;
             }),
-         ])->where('status',1)->get();
+         ])->where(function ($query) use ($categoryActive) {
+            $query->whereIn('category_id', $categoryActive)
+                  ->orWhereIn('sub_category_id', $categoryActive);
+        })->where('status',1)->get();
         // return response()->json(new AllProductCollection($products));
         return ApiResponse::success(new AllProductCollection( PaginateCollection::paginate($products, $request->pageSize?$request->pageSize:10)));
     }
