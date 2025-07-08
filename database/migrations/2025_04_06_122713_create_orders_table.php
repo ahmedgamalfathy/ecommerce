@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('number')->unique();
-            $table->foreignIdFor(Client::class)->constrained('clients');
+            $table->foreignIdFor(Client::class)->nullable()->constrained('clients')->nullOnDelete();
             $table->foreignId('client_phone_id')->nullable()->constrained('client_phones')->nullOnDelete();
             $table->foreignId('client_email_id')->nullable()->constrained('client_emails')->nullOnDelete();
             $table->foreignId('client_address_id')->nullable()->constrained('client_addresses')->nullOnDelete();

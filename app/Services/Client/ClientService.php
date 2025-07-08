@@ -67,12 +67,9 @@ class ClientService
         ]);
         return $client;
     }
-    public function deleteClient(int $id):void
+    public function deleteClient(int $id)
     {
-        $client = Client::find($id);
-        if(!$client){
-            throw new ModelNotFoundException();
-        }
+        $client = Client::findOrFail($id);
         $client->delete();
     }
 }

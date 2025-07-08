@@ -80,13 +80,12 @@ class ClientController extends Controller implements HasMiddleware
     public function destroy(int $id)
     {
         try{
-            $this->clientService->deleteClient($id);
-            return ApiResponse::success([],__('crud.deleted'));
+        $this->clientService->deleteClient($id);
+        return ApiResponse::success([],__('crud.deleted'));
         }catch(ModelNotFoundException $e){
-            return apiResponse::error(__('crud.not_found'),[], HttpStatusCode::NOT_FOUND);
+        return apiResponse::error(__('crud.not_found'),[], HttpStatusCode::NOT_FOUND);
         }catch (\Throwable $th) {
-            return ApiResponse::error(__('crud.server_error'),[],HttpStatusCode::INTERNAL_SERVER_ERROR);
+        return ApiResponse::error(__('crud.server_error'),$th->getMessage(),HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
-
     }
 }
