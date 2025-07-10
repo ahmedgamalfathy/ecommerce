@@ -30,7 +30,7 @@ class CreateClientAddressWebsiteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address' => 'required|string|unique:client_addresses,address|max:255',
+            'address' => 'required|string|max:255',
             'isMain' => ['required',new Enum(IsMain::class)],
             'streetNumber'=>['nullable','string'] ,
             'city' =>['nullable','string'],

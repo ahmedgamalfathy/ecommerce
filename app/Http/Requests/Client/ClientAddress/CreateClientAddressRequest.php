@@ -26,12 +26,12 @@ class CreateClientAddressRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    
+
     public function rules(): array
     {
         return [
             'clientId' => 'required',
-            'address' => 'required|string|unique:client_addresses,address|max:255',
+            'address' => 'required|max:255',
             'isMain' => ['required',new Enum(IsMain::class)],
             'streetNumber'=>['nullable','string'] ,
             'city' =>['nullable','string'],

@@ -29,7 +29,7 @@ class UpdateClientAddressRequest extends FormRequest
     {
         return [
             'clientId' => 'required',
-           'address' => 'required|string|unique:client_addresses,address|max:255',
+           'address' => 'required|string|max:255',
             'isMain' => ['required',new Enum(IsMain::class)],
             'streetNumber'=>['nullable','string'] ,
             'city' =>['nullable','string'],
