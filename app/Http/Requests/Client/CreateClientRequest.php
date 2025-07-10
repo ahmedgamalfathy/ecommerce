@@ -42,6 +42,9 @@ class CreateClientRequest extends FormRequest
             'addresses'=>'nullable|array',
             'addresses.*.address'=>'required|string|unique:client_addresses,address|max:255',
             'addresses.*.isMain'=>['required',new Enum(IsMain::class)],
+            "addresses.*.streetNumber"=>['nullable'],
+            "addresses.*.city"=>['nullable'],
+            "addresses.*.region"=>['nullable'],
         ];
     }
 

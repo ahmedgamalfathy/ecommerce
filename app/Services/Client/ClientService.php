@@ -47,7 +47,14 @@ class ClientService
 
     if (isset($data['addresses'])) {
         foreach ($data['addresses'] as $address) {
-            $this->clientAddressService->createClientAddress(['clientId'=> $client->id, ...$address]);
+            $this->clientAddressService->createClientAddress([
+                'clientId'=> $client->id,
+                "address"=>$address['address'],
+                "isMain"=>$address['isMain'],
+                "streetNumber"=>$address['streetNumber']??null,
+                "city"=>$address['city']??null,
+                "region"=>$address['region']??null
+             ]);
         }
     }
     if (isset($data['email'])) {
