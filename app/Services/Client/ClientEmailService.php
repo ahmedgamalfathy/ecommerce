@@ -14,11 +14,17 @@ class ClientEmailService {
 
     public function createClientEmail(array $data)
     {
-        return  ClientEmail::create([
+        $ClientEmail= ClientEmail::create([
             'client_id' => $data['clientId'],
             'email' => $data['email'],
             'is_main' =>IsMain::from($data['isMain'])->value ,
         ]);
+        if($data['isMain']== 1){
+            ClientEmail::where('client_id',$data['clientId'])->where('id','!=',$ClientEmail->id)->update([
+             'is_main'=>  0
+            ]);
+        }
+        return $ClientEmail;
     }
 
     public function editClientEmail(int $id)
@@ -40,6 +46,11 @@ class ClientEmailService {
             'email' => $data['email'],
             'is_main' =>IsMain::from($data['isMain'])->value ,
         ]);
+        if($data['isMain']== 1){
+            ClientEmail::where('client_id',$data['clientId'])->where('id','!=',$ClientEmail->id)->update([
+             'is_main'=>  0
+            ]);
+        }
         return $ClientEmail;
     }
     public function deleteClientEmail(int $clientId)

@@ -18,8 +18,7 @@ use Illuminate\Support\Facades\Request;
         }
         public function createClientAddress(array $data)
         {
-            // dd($data);
-            return ClientAdrress::create([
+            $clientAdrress= ClientAdrress::create([
                 'client_id' => $data['clientId'],
                 'address' => $data['address'],
                 'is_main' => IsMain::from($data['isMain']),
@@ -27,6 +26,12 @@ use Illuminate\Support\Facades\Request;
                 'city' =>$data['city']??null,
                 'region'=>$data['region']??null
             ]);
+            if($data['isMain']== 1){
+                ClientAdrress::where('client_id',$data['clientId'])->where('id','!=',$clientAdrress->id)->update([
+                 'is_main'=>  0
+                ]);
+            }
+            return $clientAdrress;
         }
         public function updateClientAddress(int $id , array $data)
         {
@@ -39,6 +44,11 @@ use Illuminate\Support\Facades\Request;
                 'city' =>$data['city']??null,
                 'region'=>$data['region']??null
             ]);
+            if($data['isMain']== 1){
+                ClientAdrress::where('client_id',$data['clientId'])->where('id','!=',$clientAddress->id)->update([
+                 'is_main'=>  0
+                ]);
+            }
             return $clientAddress;
         }
         public function deleteClientAddress(int $id)
