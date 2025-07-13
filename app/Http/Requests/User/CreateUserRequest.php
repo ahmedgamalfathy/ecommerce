@@ -37,7 +37,7 @@ class CreateUserRequest extends FormRequest
             'address' => 'nullable',
             'isActive' => ['required', new Enum(UserStatus::class)],
             'password'=> [
-                'required','string',
+                'required','string','confirmed',
                 Password::min(8)->mixedCase()->numbers(),
             ],
             'roleId'=> ['required', 'numeric'],
