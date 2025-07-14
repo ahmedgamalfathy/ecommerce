@@ -30,6 +30,7 @@ class OrderResource extends JsonResource
             'totalOrderCost'=>$this->total_cost,
             'priceAfterDiscount' => $this->price_after_discount,
             'date' =>Carbon::parse($this->created_at)->format('d/m/Y'),
+            'totalOrderItems'=>$this->items->count(),
             'orderItems'=> OrderItemResource::collection($this->whenLoaded('items')),
         ];
     }
