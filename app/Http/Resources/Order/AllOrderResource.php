@@ -23,7 +23,7 @@ class AllOrderResource  extends JsonResource
             'price' => $this->price,
             'totalOrderCost'=>$this->total_cost,
             'priceAfterDiscount' => $this->price_after_discount,
-            'totalItems'=>$this->items->count()
+            'totalOrderItems'=>$this->items->count()
         ];
     }
 }
