@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Order;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 class AllOrderResource  extends JsonResource
@@ -23,7 +24,8 @@ class AllOrderResource  extends JsonResource
             'price' => $this->price,
             'totalOrderCost'=>$this->total_cost,
             'priceAfterDiscount' => $this->price_after_discount,
-            'totalOrderItems'=>$this->items->count()
+            'totalOrderItems'=>$this->items->count(),
+            'date' =>Carbon::parse($this->created_at)->format('d/m/Y')
         ];
     }
 }
