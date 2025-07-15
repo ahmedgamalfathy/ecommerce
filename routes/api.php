@@ -48,6 +48,7 @@ Route::prefix('v1/admin')->group(function () {
     });
     Route::post('/product-media/changeStatusMedia/{id}',[ProductMediaController::class ,'changeStatusProductMedia']);
     Route::post('/sliders/changeStatus/{id}',[SliderController::class ,'changeStatus']);
+    Route::get('clients/clientCheckDefault',ClientCheckDefaultController::class);
     Route::apiResources([
         // "categories" => CategoryController::class,
         // "sub-categories" =>SubCategoryController::class,
@@ -98,7 +99,7 @@ Route::prefix('v1/website')->group(function(){
     Route::apiResource('orders',OrderWebsite::class)->only(['store'])->names([
         'store' => 'ordersWeb.store',
     ]);
-    Route::get('clients/clientCheckDefault',ClientCheckDefaultController::class);
+
     Route::apiResource("clients-web" , ClientWebsiteController::class)->only(['index']);
     Route::apiResource("client-web-phones" , ClientPhoneWebsiteController::class);
     Route::apiResource("client-web-addresses",ClientAdressWebsiteController::class);
