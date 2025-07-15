@@ -1,8 +1,10 @@
 <?php
 namespace App\Services\Client;
 use App\Enums\IsMain;
+use App\Enums\ResponseCode\HttpStatusCode;
 use App\Models\Client\Client;
 use App\Filters\Client\FilterClient;
+use App\Helpers\ApiResponse;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -79,4 +81,5 @@ class ClientService
         $client = Client::findOrFail($id);
         $client->delete();
     }
+   
 }

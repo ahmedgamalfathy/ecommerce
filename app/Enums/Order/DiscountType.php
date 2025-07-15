@@ -1,6 +1,6 @@
 <?php
 namespace App\Enums\Order;
-enum DiscountType:int{
+enum DiscountType:int{ 
     case FIXCED = 1 ;
     case NO_DISCOUNT = 0;
     case PERCENTAGE = 2;

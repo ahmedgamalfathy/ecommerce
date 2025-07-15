@@ -27,7 +27,7 @@ class ClientWebsiteController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('auth:client'),
+            // new Middleware('auth:client'),
         ];
     }
 
@@ -67,4 +67,6 @@ class ClientWebsiteController extends Controller implements HasMiddleware
             }
 
     }
+    
+
 }

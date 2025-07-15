@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Dashboard\Client\ClientCheckDefaultController;
 use App\Models\Order\OrderItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -97,6 +98,7 @@ Route::prefix('v1/website')->group(function(){
     Route::apiResource('orders',OrderWebsite::class)->only(['store'])->names([
         'store' => 'ordersWeb.store',
     ]);
+    Route::get('clients/clientCheckDefault',ClientCheckDefaultController::class);
     Route::apiResource("clients-web" , ClientWebsiteController::class)->only(['index']);
     Route::apiResource("client-web-phones" , ClientPhoneWebsiteController::class);
     Route::apiResource("client-web-addresses",ClientAdressWebsiteController::class);
