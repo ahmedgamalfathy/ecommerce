@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Dashboard\Client\ClientCheckDefaultController;
 use App\Models\Order\OrderItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -16,24 +15,27 @@ use App\Http\Controllers\Api\V1\Website\Payment\PaymentController;
 use App\Http\Controllers\Api\V1\Website\Auth\AuthWebsiteController;
 use App\Http\Controllers\Api\V1\Dashboard\Product\ProductController;
 use App\Http\Controllers\Api\V1\Website\Order\ClientOrderController;
-// use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryController;
 use App\Http\Controllers\Api\V1\Dashboard\User\UserProfileController;
+// use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryController;
 use App\Http\Controllers\Api\V1\Website\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Website\Order\AuthOrderItemController;
 use App\Http\Controllers\Api\V1\Website\Order\CheckQuantityController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientEmailController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientPhoneController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientWebsiteController;
-// use App\Http\Controllers\Api\V1\Dashboard\Category\SubCategoryController;
 use App\Http\Controllers\Api\V1\Dashboard\Client\ClientAdressController;
+// use App\Http\Controllers\Api\V1\Dashboard\Category\SubCategoryController;
 use App\Http\Controllers\Api\V1\Dashboard\User\ChangePasswordController;
 use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryTwoController;
 use App\Http\Controllers\Api\V1\Website\Product\ProductWebsiteController;
+use App\Http\Controllers\Api\V1\Dashboard\StaticPage\StaticPageController;
+use App\Http\Controllers\Api\V1\Website\StaticPage\StaticPageWebController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientEmailWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientPhoneWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ClientProfileController;
 use App\Http\Controllers\Api\V1\Website\Client\ClientAdressWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Product\BestSellingProductController;
+use App\Http\Controllers\Api\V1\Dashboard\Client\ClientCheckDefaultController;
 use App\Http\Controllers\Api\V1\Dashboard\ProductMedia\ProductMediaController;
 use App\Http\Controllers\Api\V1\Website\Order\OrderController as OrderWebsite;
 use App\Http\Controllers\Api\V1\Website\Slider\SliderController as SliderWebsite;
@@ -41,7 +43,8 @@ use App\Http\Controllers\Api\V1\Website\Category\CategoryController as CategoryW
 use App\Http\Controllers\Api\V1\Website\Auth\Profile\ChangePasswordController as ChangePasswordWebsite ;
 
 Route::prefix('v1/admin')->group(function () {
-
+    Route::get('/pages/{slug}', [StaticPageController::class, 'show']);
+    Route::put('/pages/{slug}', [StaticPageController::class, 'update']);
     Route::controller(AuthController::class)->prefix('auth')->group(function () {
         Route::post('/login','login');
         Route::post('/logout','logout');
@@ -72,6 +75,7 @@ Route::prefix('v1/admin')->group(function () {
 
 });//admin
 Route::prefix('v1/website')->group(function(){
+    Route::get('/pages/{slug}', [StaticPageWebController::class, 'show']);
     Route::controller(AuthWebsiteController::class)->group(function () {
         Route::post('register', 'register');
         Route::post('login', 'login');
