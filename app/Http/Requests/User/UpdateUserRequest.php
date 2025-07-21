@@ -33,7 +33,7 @@ class UpdateUserRequest extends FormRequest
             'username'=> ['required', "unique:users,username,{$this->route('user')}"],
             'name' => 'required',
             'email'=> ['nullable'],
-            'phone' => ['nullable','numeric'],
+            'phone' => ['nullable'],
             'address' => 'nullable',
             'isActive' => ['required', new Enum(UserStatus::class)],
             'password'=> [
