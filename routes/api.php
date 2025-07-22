@@ -100,7 +100,7 @@ Route::prefix('v1/website')->group(function(){
         'index' => 'productsWeb.index',
         'show'=>'productsWeb.show'
     ]);
-    Route::apiResource('orders',OrderWebsite::class)->only(['store'])->names([
+    Route::apiResource('orders-web',OrderWebsite::class)->only(['store'])->names([
         'store' => 'ordersWeb.store',
     ]);
 

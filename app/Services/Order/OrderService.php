@@ -69,6 +69,7 @@ class OrderService
             }
             $totalPrice += $item->price * $item->qty;
             $totalCost += $item->cost*$item->qty;
+
         }
 
         if ($order->discount_type == DiscountType::PERCENTAGE) {
@@ -78,12 +79,12 @@ class OrderService
         }elseif($order->discount_type == DiscountType::NO_DISCOUNT){
             $totalPriceAfterDiscount = $totalPrice;
         }
+
         $order->update([
             'price_after_discount' => $totalPriceAfterDiscount,
             'price' => $totalPrice,
             'total_cost'=>$totalCost
         ]);
-
 
         return $order;
 
