@@ -102,7 +102,7 @@ Route::prefix('v1/website')->group(function(){
     ]);
     Route::apiResource('orders-web',OrderWebsite::class)->only(['store'])->names([
         'store' => 'ordersWeb.store',
-    ]);
+    ]);//add orders-web
 
     Route::apiResource("clients-web" , ClientWebsiteController::class)->only(['index']);
     Route::apiResource("client-web-phones" , ClientPhoneWebsiteController::class);
