@@ -85,7 +85,6 @@ class OrderService
             'price' => $totalPrice,
             'total_cost'=>$totalCost
         ]);
-dd($order);
         return $order;
 
     }
