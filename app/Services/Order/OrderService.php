@@ -79,7 +79,7 @@ class OrderService
         }elseif($order->discount_type == DiscountType::NO_DISCOUNT){
             $totalPriceAfterDiscount = $totalPrice;
         }
-
+dd( $totalCost ,$totalPrice ,$totalPriceAfterDiscount );
         $order->update([
             'price_after_discount' => $totalPriceAfterDiscount,
             'price' => $totalPrice,
