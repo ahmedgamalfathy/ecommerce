@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Order\Website;
 
-use App\Http\Resources\Order\OrderItem\OrderItemResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Order\OrderItem\OrderItemResource;
+
 class OrderResource extends JsonResource
 {
     /**
@@ -21,6 +23,7 @@ class OrderResource extends JsonResource
             'price' => $this->price,
             'priceAfterDiscount' => $this->price_after_discount,
             'products' =>count($this->items),
+            'date' =>Carbon::parse($this->created_at)->format('Y-m-d')
             // 'orderItems'=> OrderItemResource::collection($this->items),
         ];
     }
