@@ -28,7 +28,13 @@ class ClientOrderController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         $clientId=$request->user()->client_id;
-        $clientOrder = Client::with('orders')->where('id',$clientId)->first();
+        $search=$request->search;
+
+        $clientOrder = Client::with(['orders'=>function($q)use($search){
+            if($search){
+                $q->where('number','like',"%{$search}%");
+            }
+        }])->where('id',$clientId)->first();
         return ApiResponse::success(new ProfileResource($clientOrder));
     }
     public function show(int $id)
