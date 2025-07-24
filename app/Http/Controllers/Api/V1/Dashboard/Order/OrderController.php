@@ -58,9 +58,15 @@ class OrderController extends Controller implements HasMiddleware
     {
         try {
             DB::beginTransaction();
-            $order = $this->orderService->createOrder($createOrderRequest->validated());
-            if(isset($order['availableQuantity']) && count($order['availableQuantity'])){
-                return ApiResponse::error(__('crud.no_available_quantity'),$order,HttpStatusCode::UNPROCESSABLE_ENTITY);
+            $result = $this->orderService->createOrder($createOrderRequest->validated());
+
+            if (!empty($result['availableQuantity'])) {
+                DB::rollBack();
+                return ApiResponse::error(
+                    __('crud.no_available_quantity'),
+                    $result['availableQuantity'],
+                    HttpStatusCode::UNPROCESSABLE_ENTITY
+                );
             }
             DB::commit();
             return ApiResponse::success([],__('crud.created'));

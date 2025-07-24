@@ -33,9 +33,9 @@ class CreateOrderRequest extends FormRequest
             'discount' => ['numeric'],
             'discountType' => ['required', new Enum(DiscountType::class)],
             'clientId' => 'required',
-            'clientPhoneId' => 'nullable',
+            'clientPhoneId' => 'required',
             'clientEmailId' => 'nullable',
-            'clientAddressId' => 'nullable',
+            'clientAddressId' => 'required',
             'status' => ['required',new Enum(OrderStatus::class)],
             'orderItems' => 'required|array',
         ];

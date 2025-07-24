@@ -49,7 +49,7 @@ class OrderService
             'status' => OrderStatus::from($data['status'])->value,
         ]);
 
-        $avilableQuantity = [];
+        $availableQuantity = [];
         foreach ($data['orderItems'] as $itemData) {
             $item= $this->orderItemService->createOrderItem([
                     'orderId' => $order->id,
@@ -57,13 +57,16 @@ class OrderService
                 ]);
 
             if($item->product->is_limited_quantity == LimitedQuantity::LIMITED){
-                if ($item->product->quantity < $item->qty) {
-                    $avilableQuantity[] = [
+                if ($item->product->quantity < $item->qty || $item->product->quantity == 0) {
+                    $availableQuantity[] = [
                         'productId' => $item->product->id,
                         'quantity' => $item->product->quantity,
                         'name' => $item->product->name
                     ];
-                    return  $avilableQuantity;
+                    $order->delete();
+                    return [
+                        'availableQuantity' => $availableQuantity
+                    ];
                 }
                 $item->product->decrement('quantity', $item->qty);
             }
@@ -85,7 +88,7 @@ class OrderService
             'price' => $totalPrice,
             'total_cost'=>$totalCost
         ]);
-        return $order;
+    return $order;
 
     }
     public function updateOrder(int $id,array $data){
@@ -113,13 +116,15 @@ class OrderService
 
                 if( $item->product->is_limited_quantity == LimitedQuantity::LIMITED){
                     $item->product->increment('quantity', $itemOldQty);
-                    if ($item->product->quantity < $item->qty) {
-                        $avilableQuantity[] = [
+                    if ($item->product->quantity < $item->qty || $item->product->quantity == 0) {
+                        $availableQuantity[] = [
                             'productId' => $item->product->id,
                             'quantity' => $item->product->quantity,
                             'name' => $item->product->name
                         ];
-                        return  $avilableQuantity;
+                        return [
+                            'availableQuantity' => $availableQuantity
+                        ];
                     }
                     $item->product->decrement('quantity', $item->qty);
                 }
@@ -127,7 +132,6 @@ class OrderService
                 $totalPrice += $item->price * $item->qty;
                 $totalCost +=  $item->cost*$item->qty;
             }
-
             if($itemData['actionStatus'] ==='delete'){
                 $item = $this->orderItemService->editOrderItem($itemData['orderItemId']);
                 if($item->product->is_limited_quantity == LimitedQuantity::LIMITED){
@@ -142,13 +146,15 @@ class OrderService
                     ]);
 
                     if( $item->product->is_limited_quantity == LimitedQuantity::LIMITED){
-                        if ($item->product->quantity < $item->qty) {
-                            $avilableQuantity[] = [
+                        if ($item->product->quantity < $item->qty || $item->product->quantity == 0) {
+                            $availableQuantity[] = [
                                 'productId' => $item->product->id,
                                 'quantity' => $item->product->quantity,
                                 'name' => $item->product->name
                             ];
-                            return  $avilableQuantity;
+                            return [
+                                'availableQuantity' => $availableQuantity
+                            ];
                         }
                         $item->product->decrement('quantity', $item->qty);
                     }
@@ -156,7 +162,6 @@ class OrderService
                     $totalPrice += $item->price * $item->qty;
                     $totalCost += $item->cost*$item->qty;
             }
-
             if($itemData['actionStatus'] ==''){
                 $item= $this->orderItemService->editOrderItem($itemData['orderItemId']);
                 $totalPrice += $item->price * $item->qty;
