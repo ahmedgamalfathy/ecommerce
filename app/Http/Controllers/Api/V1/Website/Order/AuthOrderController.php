@@ -54,7 +54,7 @@ class AuthOrderController extends Controller implements HasMiddleware
             'client_email_id' => $request->input("client.clientEmailId")??null ,
             'client_address_id' => $request->input("client.clientAddressId")??null,
             'client_id' => $client->id,
-            'status' => 0,
+            'status' => 3,
         ]);
 
         $avilableQuantity = [];
@@ -71,7 +71,8 @@ class AuthOrderController extends Controller implements HasMiddleware
                         'quantity' => $item->product->quantity,
                         'name' => $item->product->name
                     ];
-                    return  $avilableQuantity;
+                    return ["message"=>__('crud.no_available_quantity'),
+                    $avilableQuantity];
                 }
                //  $item->product->decrement('quantity', $item->qty);
             }
