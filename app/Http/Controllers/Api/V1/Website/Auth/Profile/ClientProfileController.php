@@ -40,24 +40,23 @@ class ClientProfileController extends Controller implements HasMiddleware
     {
         $authUser = $request->user();
         $userData = $request->validated();
-        $avatarPath = null;
-        if(isset($userData['avatar']) && $userData['avatar'] instanceof UploadedFile){
-            $avatarPath =  $this->uploadService->uploadFile($userData['avatar'],'clientAvatars');
-        }
         $clientUser = ClientUser::find($authUser->id);
         $clientUser->name = $userData['name']??'';
         $clientUser->email = $userData['email']??'';
-        // dd($userData->getRawOriginal('avatar'));
-        $oldAvatar = $clientUser->getRawOriginal('avatar');
-        if ($oldAvatar && is_string($oldAvatar)) {
-            Storage::disk('public')->delete($oldAvatar);
+
+        if (isset($userData['avatar']) && $userData['avatar'] instanceof UploadedFile) {
+            $avatarPath = $this->uploadService->uploadFile($userData['avatar'], 'clientAvatars');
+            $oldAvatar = $clientUser->getRawOriginal('avatar');
+            if ($oldAvatar && is_string($oldAvatar)) {
+                Storage::disk('public')->delete($oldAvatar);
+            }
+            $clientUser->avatar = $avatarPath;
+            ClientUser::where('client_id', $clientUser->client_id)->update([
+                'avatar' => $avatarPath
+            ]);
         }
-        $clientUser->avatar = $avatarPath;
         $clientUser->save();
-        $clientId = ClientUser::find($authUser->id)->client_id;
-        ClientUser::where('client_id',$clientId)->update([
-         'avatar'=>$avatarPath  ]);
-        $client = Client::find($clientId);
+        $client = Client::find($clientUser->client_id);
         $client->name = $userData['name']??'';
         $client->save();
 
