@@ -74,8 +74,7 @@ class AuthOrderItemController extends Controller implements HasMiddleware
                     'quantity' => $orderItem->product->quantity,
                     'name' => $orderItem->product->name
                 ];
-                return ["message"=>__('crud.no_available_quantity'),
-                    $avilableQuantity];
+                return  $avilableQuantity;
             }
            //  $item->product->decrement('quantity', $item->qty);
         }
@@ -103,27 +102,14 @@ class AuthOrderItemController extends Controller implements HasMiddleware
     }
     public function update(Request $request ,$id)
     {
-
         $data =$request->validate([
         'productId' => 'required|integer|exists:products,id',
         'qty' => 'required|integer|min:1',
         'orderId'=>'required|exists:orders,id|min:1'
         ]);
-        $orderItem = OrderItem::find($id);//orderItemId
+        $orderItem = OrderItem::find($id);
         if(!$orderItem){
             return ApiResponse::error(__('crud.not_found'));
-        }
-
-        if($orderItem->product->is_limited_quantity == LimitedQuantity::LIMITED ){
-            if ($orderItem->product->quantity < $data['qty']) {
-                $avilableQuantity[] = [
-                    'productId' => $orderItem->product->id,
-                    'quantity' => $orderItem->product->quantity,
-                    'name' => $orderItem->product->name
-                ];
-                return ["message"=>__('crud.no_available_quantity'),
-                    $avilableQuantity];
-            }
         }
         $product = Product::where('id', $orderItem->product_id)->select(['cost','price'])->first();
         $orderItem->update([

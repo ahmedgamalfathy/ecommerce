@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\V1\Dashboard\Client\ClientAdressController;
 // use App\Http\Controllers\Api\V1\Dashboard\Category\SubCategoryController;
 use App\Http\Controllers\Api\V1\Dashboard\User\ChangePasswordController;
 use App\Http\Controllers\Api\V1\Dashboard\Category\CategoryTwoController;
+use App\Http\Controllers\Api\V1\Website\Order\OrderItemWebsiteController;
 use App\Http\Controllers\Api\V1\Website\Product\ProductWebsiteController;
 use App\Http\Controllers\Api\V1\Dashboard\StaticPage\StaticPageController;
 use App\Http\Controllers\Api\V1\Website\StaticPage\StaticPageWebController;
@@ -115,11 +116,21 @@ Route::prefix('v1/website')->group(function(){
     Route::post('orders-auth',[AuthOrderController::class,'store']);
     Route::get('orders-auth/{id}',[AuthOrderController::class,'show']);
     Route::put('orders-update/{id}',[AuthOrderController::class,'update']);
+
+    Route::prefix('orderItems')->group(function () {
+        Route::post('', [OrderItemWebsiteController::class, 'allItems']);
+        Route::post('{orderId}/items', [OrderItemWebsiteController::class, 'createItem']);
+        Route::put('items/{itemId}', [OrderItemWebsiteController::class, 'updateItem']);
+        Route::delete('items/{itemId}', [OrderItemWebsiteController::class, 'deleteItem']);
+    });
+
+
     Route::get('/orderItems',[AuthOrderItemController::class , 'index']);
-    Route::get('/orderItems/{id}',[AuthOrderItemController::class , 'edit']);
-    Route::post('/orderCreate',[AuthOrderItemController::class , 'store']);
-    Route::put('/orderUpdate/{id}',[AuthOrderItemController::class , 'update']);
-    Route::delete('/orderDelete/{id}',[AuthOrderItemController::class , 'destory']);
+    // Route::get('/orderItems/{id}',[AuthOrderItemController::class , 'edit']);
+    // Route::post('/orderCreate',[AuthOrderItemController::class , 'store']);
+    // Route::put('/orderUpdate/{id}',[AuthOrderItemController::class , 'update']);
+    // Route::delete('/orderDelete/{id}',[AuthOrderItemController::class , 'destory']);
+
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website ...
 // Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
