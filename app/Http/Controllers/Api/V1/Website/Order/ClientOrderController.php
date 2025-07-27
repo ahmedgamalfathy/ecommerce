@@ -13,6 +13,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
 use App\Http\Resources\Client\website\ProfileResource;
+use App\Http\Resources\Order\Website\OrderEditResource;
 use App\Http\Resources\Order\OrderItem\Website\OrderItemResource;
 
 class ClientOrderController extends Controller implements HasMiddleware
@@ -39,7 +40,7 @@ class ClientOrderController extends Controller implements HasMiddleware
     }
     public function show(int $id)
     {
-        $order = Order::with('items')->where('id',$id)->first();
-        return ApiResponse::success(OrderItemResource::collection($order->items));
+        $order = Order::with(['items.product.productMedia', 'clientPhone', 'clientAddress', 'clientEmail'])->where('id',$id)->first();
+        return ApiResponse::success(new OrderEditResource($order));
     }
 }
