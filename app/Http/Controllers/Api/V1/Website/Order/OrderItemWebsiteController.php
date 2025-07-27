@@ -138,7 +138,11 @@ class OrderItemWebsiteController extends Controller implements HasMiddleware
             }
 
             $item->delete();
-            $this->recalculateOrderTotals($order);
+            if ($order->items()->count() === 0) {
+                $order->delete();
+            } else {
+                $this->recalculateOrderTotals($order);
+            }
 
             DB::commit();
            return ApiResponse::success(__('crud.deleted'));
