@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use CreatedUpdatedBy,HasFactory;
+    use HasFactory;
     protected $fillable = [
         'client_id',
         'client_phone_id',
