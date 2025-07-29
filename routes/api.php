@@ -53,6 +53,9 @@ Route::prefix('v1/admin')->group(function () {
     Route::post('/product-media/changeStatusMedia/{id}',[ProductMediaController::class ,'changeStatusProductMedia']);
     Route::post('/sliders/changeStatus/{id}',[SliderController::class ,'changeStatus']);
     Route::get('clients/clientCheckDefault',ClientCheckDefaultController::class);
+    //force_delete_Client
+    Route::post('clients/{id}/restore', [ClientController::class, 'restore']);
+    Route::delete('clients/{id}/force', [ClientController::class, 'forceDelete']);
     Route::apiResources([
         // "categories" => CategoryController::class,
         // "sub-categories" =>SubCategoryController::class,

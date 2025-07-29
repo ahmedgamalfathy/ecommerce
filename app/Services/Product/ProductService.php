@@ -24,9 +24,11 @@ class ProductService
     }
     public function allProducts(){
         return QueryBuilder::for(Product::class)
+        ->defaultSort('-created_at')
         ->allowedFilters([
             AllowedFilter::custom('search', new FilterProduct),
         ])
+        ->orderBy('created_at', 'desc')
         ->get();
     }
     public function createProduct(array $data){

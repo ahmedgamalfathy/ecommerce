@@ -10,6 +10,7 @@ use App\Models\Client\Client;
 use App\Enums\Client\ClientType;
 use Illuminate\Http\UploadedFile;
 use App\Enums\Client\ClientStatus;
+use App\Enums\Order\OrderStatus;
 use App\Services\User\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -95,6 +96,7 @@ class AuthWebsiteController extends Controller
         }
         return ApiResponse::success([
             'profile' => new LoggedInClientResource($user),
+            "orderIdInCart" => Client::where('id',$user->client_id)->first()->orders()->where('status',OrderStatus::IN_CART)->first()->id,
             'tokenDetails' => [
                 'token' => $token,
                 'expiresIn' => $remember == 1? "all the time" : 60*24,

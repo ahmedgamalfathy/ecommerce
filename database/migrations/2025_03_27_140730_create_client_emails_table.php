@@ -21,7 +21,8 @@ return new class extends Migration
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('email');
             $table->boolean('is_main')->default(IsMain::SECONDARY->value);
-            $this->CreatedUpdatedByRelationship($table);
+            $table->softDeletes();
+            // $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });
     }

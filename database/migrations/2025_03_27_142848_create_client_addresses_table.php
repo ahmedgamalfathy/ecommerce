@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('region')->nullable();
             $table->boolean('is_main')->default(IsMain::SECONDARY->value);
-            $this->CreatedUpdatedByRelationship($table);
+            $table->softDeletes();
+            // $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\StaticPage\StaticPage;
 use Illuminate\Database\Seeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\User\UserSeeder;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ProductMediaSeeder::class,
             ClientSeeder::class,
             OrderSeeder::class,
+            StaticPageSeeder::class
         ]);
 
     }

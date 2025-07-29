@@ -6,10 +6,11 @@ use App\Enums\IsMain;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClientPhone extends Model
 {
-    use CreatedUpdatedBy ,HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $guarded = [];
 

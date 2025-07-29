@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->tinyInteger('type')->default(ClientType::VISITOR->value);
             $table->text('note')->nullable();
+            $table->softDeletes();
             // $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });

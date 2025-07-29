@@ -25,9 +25,11 @@ class ClientService
     {
         $perPage = request()->get('pageSize', 10);
         $clients = QueryBuilder::for(Client::class)
+        ->allowedSorts('created_at')
         ->allowedFilters([
         AllowedFilter::custom('search', new FilterClient()),
-        ])
+        ])->whereNot('type',1)
+        ->orderBy('created_at', 'desc')
         ->paginate($perPage); // Pagination applied here
         return $clients;
     }
@@ -81,5 +83,16 @@ class ClientService
         $client = Client::findOrFail($id);
         $client->delete();
     }
-   
+    public function restoreClient($id)
+    {
+        $client = Client::withTrashed()->findOrFail($id);
+        $client->restore();
+    }
+
+    public function forceDeleteClient($id)
+    {
+        $client = Client::withTrashed()->findOrFail($id);
+        $client->forceDelete();
+    }
+
 }

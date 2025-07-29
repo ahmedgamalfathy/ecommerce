@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('phone');//secondary
             $table->boolean('is_main')->default(IsMain::SECONDARY->value);
             $table->string('country_code')->nullable();
-            $this->CreatedUpdatedByRelationship($table);
+            $table->softDeletes();
+            // $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });
     }
