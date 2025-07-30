@@ -51,6 +51,28 @@ class OrderItemWebsiteController extends Controller implements HasMiddleware
         try {
             $order = Order::findOrFail($orderId);
             $product = Product::where('id',$request->productId)->select(['cost','price'])->first();
+
+            $existingItem = OrderItem::where('order_id', $order->id)
+            ->where('product_id', $request->productId)
+            ->first();
+
+            if ($existingItem) {
+            $productModel = $existingItem->product;
+            $newQty = $existingItem->qty + $request->qty;
+            if ($productModel->is_limited_quantity == LimitedQuantity::LIMITED) {
+                if ($productModel->quantity < $request->qty) {
+                    DB::rollBack();
+                    return response()->json(['error' => 'No available quantity', 'product' => [
+                        'productId' => $productModel->id,
+                        'quantity' => $productModel->quantity,
+                        'name' => $productModel->name
+                    ]], 422);
+                }
+                $product->decrement('quantity', $request->qty);
+            }
+            $existingItem->qty = $newQty;
+            $existingItem->save();
+            }else {
             $item = new OrderItem([
                 'order_id' => $order->id,
                 'product_id' => $request->productId,
@@ -58,7 +80,6 @@ class OrderItemWebsiteController extends Controller implements HasMiddleware
                 'price' =>  $product->price,
                 'cost' =>  $product->cost,
             ]);
-
             $product = $item->product;
             if ($product->is_limited_quantity == LimitedQuantity::LIMITED) {
                 if ($product->quantity < $item->qty) {
@@ -69,12 +90,11 @@ class OrderItemWebsiteController extends Controller implements HasMiddleware
                         'name' => $product->name
                     ]], 422);
                 }
-                 $product->decrement('quantity', $item->qty);
+                    $product->decrement('quantity', $item->qty);
             }
-
             $item->save();
+            }
             $this->recalculateOrderTotals($order);
-
             DB::commit();
             return ApiResponse::success(__('crud.created'));
         } catch (\Throwable $e) {

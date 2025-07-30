@@ -121,18 +121,11 @@ Route::prefix('v1/website')->group(function(){
     Route::put('orders-update/{id}',[AuthOrderController::class,'update']);
 
     Route::prefix('orderItems')->group(function () {
-        Route::post('', [OrderItemWebsiteController::class, 'allItems']);
+        Route::get('', [OrderItemWebsiteController::class, 'allItems']);
         Route::post('{orderId}/items', [OrderItemWebsiteController::class, 'createItem']);
         Route::put('items/{itemId}', [OrderItemWebsiteController::class, 'updateItem']);
         Route::delete('items/{itemId}', [OrderItemWebsiteController::class, 'deleteItem']);
     });
-
-
-    Route::get('/orderItems',[AuthOrderItemController::class , 'index']);
-    // Route::get('/orderItems/{id}',[AuthOrderItemController::class , 'edit']);
-    // Route::post('/orderCreate',[AuthOrderItemController::class , 'store']);
-    // Route::put('/orderUpdate/{id}',[AuthOrderItemController::class , 'update']);
-    // Route::delete('/orderDelete/{id}',[AuthOrderItemController::class , 'destory']);
 
     Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 });//website ...
