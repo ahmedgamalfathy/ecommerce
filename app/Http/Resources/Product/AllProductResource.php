@@ -27,6 +27,7 @@ class AllProductResource extends JsonResource
             'name' => $this->name,
             'price' => $this->price,
             'status' => $this->status,
+            'quantity' => $this->quantity,
             "categoryId" => $this->category_id??"",
             "subCategoryId"=> $this->sub_category_id??"",
             'description' => $this->description,
