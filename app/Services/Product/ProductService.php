@@ -27,6 +27,7 @@ class ProductService
         ->defaultSort('-created_at')
         ->allowedFilters([
             AllowedFilter::custom('search', new FilterProduct),
+            AllowedFilter::exact('status'),
         ])
         ->orderBy('created_at', 'desc')
         ->get();
