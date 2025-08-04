@@ -19,6 +19,7 @@ class AllProfileResource extends JsonResource
     {
         return[
                 'clientUserId' => $this->id,
+                'clientId' => $this->client_id,
                 'name' => $this->name,
                 'avatar' => $this->avatar,
                 'email' => $this->email,
