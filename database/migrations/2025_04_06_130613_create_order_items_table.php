@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('cost', 8,2)->default(0);
             $table->integer('qty');
-            $this->CreatedUpdatedByRelationship($table);
+            // $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });
     }

@@ -96,7 +96,7 @@ class AuthWebsiteController extends Controller
         }
         return ApiResponse::success([
             'profile' => new LoggedInClientResource($user),
-            "orderIdInCart" => Client::where('id',$user->client_id)->first()->orders()->where('status',OrderStatus::IN_CART)->first()->id,
+            "orderIdInCart" => Client::where('id',$user->client_id)->first()->orders()->where('status',OrderStatus::IN_CART)->first()->id??"",
             'tokenDetails' => [
                 'token' => $token,
                 'expiresIn' => $remember == 1? "all the time" : 60*24,

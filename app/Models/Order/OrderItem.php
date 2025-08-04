@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderItem extends Model
 {
-    use CreatedUpdatedBy , HasFactory;
+    use  HasFactory;
     protected $guarded = [];
 
     public function order()

@@ -33,6 +33,7 @@ class AuthOrderController extends Controller implements HasMiddleware
     }
 
     public function store(Request $request){
+
         $data =$request->validate([
                 'orderItems' => 'required|array|min:1',
                 'orderItems.*.productId' => 'required|integer|exists:products,id',
@@ -63,7 +64,6 @@ class AuthOrderController extends Controller implements HasMiddleware
                     'orderId' => $order->id,
                     ...$itemData
                 ]);
-
             if($item->product->is_limited_quantity == LimitedQuantity::LIMITED && $item->product->quantity < $item->qty){
                 if ($item->product->quantity < $item->qty) {
                     $avilableQuantity[] = [
@@ -102,6 +102,7 @@ class AuthOrderController extends Controller implements HasMiddleware
         return ApiResponse::success(new OrderResource($order));
     }
     public function update(Request $request, $id){
+
         $data =$request->validate([
             'client.clientPhoneId' => 'required|exists:client_phones,id',
             'client.clientEmailId' => 'required|exists:client_emails,id',
@@ -117,7 +118,7 @@ class AuthOrderController extends Controller implements HasMiddleware
         $order->client_phone_id = $data['client']['clientPhoneId'];
         $order->client_email_id = $data['client']['clientEmailId'];
         $order->client_address_id = $data['client']['clientAddressId'];
-        $order->status = OrderStatus::CHECKOUT->value;
+        $order->status = OrderStatus::IN_CART->value;
         $order->save();
         return ApiResponse::success(new OrderResource($order));
     }
