@@ -26,6 +26,7 @@ class OrderItemResource extends JsonResource
                 'productId' => $this->product_id,
                 'name' => $this->product->name,
                 'quantity' => $this->product->quantity,
+                'isLimitedQuantity' => $this->product->is_limited_quantity,
                 'path'=>
                 $this->product->firstProductMedia
                 ? new ProductMediaResouce($this->product->firstProductMedia)
