@@ -85,7 +85,7 @@ class AuthWebsiteController extends Controller
         if ($user->status == ClientStatus::INACTIVE) {
             return ApiResponse::error(__('auth.inactive_account'), [], HttpStatusCode::UNAUTHORIZED);
         }
-        $user->tokens()->delete();
+        // $user->tokens()->delete();
         //check remember
         if($remember == 1){
             $token = $user->createToken(//now()->addDays(3) , now()->addHours(12)
