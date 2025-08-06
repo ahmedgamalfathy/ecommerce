@@ -78,6 +78,7 @@ class PaypalPaymentService extends BasePaymentService implements PaymentGatewayI
 
     public function callBack(Request $request):bool
     {
+
         $token=$request->get('token');
         $response=$this->buildRequest('POST',"/v2/checkout/orders/$token/capture");
         if($response->getData(true)['success']&& $response->getData(true)['data']['status']==='COMPLETED' ){
@@ -87,19 +88,13 @@ class PaypalPaymentService extends BasePaymentService implements PaymentGatewayI
             $orderId = $matches[1] ?? null;
             $clientId = $matches[2] ?? null;
             $order = Order::find($orderId);
-
-            if (!$order || $order->status !== OrderStatus::DRAFT) {
-                return true;
-            }
-
             DB::transaction(function () use ($order) {
-                $order->status = OrderStatus::CONFIRM->value;
+                $order->status = OrderStatus::CONFIRM;
                 $order->save();
-
-                foreach ($order->items as $item) {
-                    $item->product->decrement('quantity', $item->qty);
-                }
             });
+            foreach ($order->items as $item) {
+                $item->product->decrement('quantity', $item->qty);
+            }
             DB::table('payment_callback')->insert([
                 'session_id' => $token,
                 'name' => $response->getData(true)['data']['payer']['name']['given_name'] ?? null,
